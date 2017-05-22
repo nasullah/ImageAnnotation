@@ -84,7 +84,7 @@ img {
 }
 
 .footer {
-    background: #48802c;
+    background: #f0f0f0;
     color: #000;
     clear: both;
     font-size: 0.8em;
@@ -174,7 +174,7 @@ img {
 }
 
 .nav li.dropdown.open ul.dropdown-menu {
-    background-color: #4D8618;
+    background-color: rgba(151, 255, 43, 0);
 }
 
 /* CREATE/EDIT FORMS AND SHOW PAGES */
