@@ -2,7 +2,10 @@ package imageannotation
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import grails.plugin.springsecurity.annotation.Secured
+import grails.converters.JSON
 
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class StudyController {
 
@@ -19,6 +22,11 @@ class StudyController {
 
     def create() {
         respond new Study(params)
+    }
+
+    def testapi(){
+        def  studyList = Study.list()
+        render studyList as JSON
     }
 
     @Transactional
