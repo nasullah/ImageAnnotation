@@ -29,7 +29,7 @@
 
                     <sec:ifLoggedIn>
                         <li class="">
-                            <a href="${createLink(uri: '/study/list')}">
+                            <a href="${createLink(uri: '/study/index')}">
                                 <i class="glyphicon glyphicon-list"></i>
                                 Studies
                             </a>
