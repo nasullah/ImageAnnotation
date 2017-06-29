@@ -19,5 +19,8 @@ class UrlMappings {
         "/api/pathologyimages"(resources:"pathologyImage")
         "/api/specialities"(resources:"speciality")
         "/api/studies"(resources:"study")
+        "/api/annotationSteps"(resources:"annotationStep")
+        "/api/annotationTasks"(resources:"annotationTask")
+        "/api/annotationTools"(resources:"annotationTool")
     }
 }
