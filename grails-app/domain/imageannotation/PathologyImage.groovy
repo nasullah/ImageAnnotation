@@ -11,6 +11,7 @@ class PathologyImage {
         takenDate(nullable: true)
         imageType()
         imagePath()
+        annotationTask()
     }
 
     String uniqueIdentifier
@@ -18,4 +19,5 @@ class PathologyImage {
     Date takenDate
     ImageType imageType
     String imagePath
+    AnnotationTask annotationTask
 }
