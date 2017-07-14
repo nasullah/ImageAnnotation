@@ -2,7 +2,7 @@ package imageannotation
 
 class Study {
 
-    static hasMany = [pathologyImages:PathologyImage]
+    static hasMany = [multiplexImages:MultiplexImage]
     static constraints = {
         studyName()
     }

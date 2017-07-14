@@ -3,9 +3,9 @@ package imageannotation
 class PathologyImage {
 
     static hasMany = [annotations:Annotation]
-    static belongsTo = [study:Study]
+    static belongsTo = [multiplexImage:MultiplexImage]
     static constraints = {
-        study()
+        multiplexImage()
         uniqueIdentifier(unique: true)
         takenBy(nullable: true)
         takenDate(nullable: true)
