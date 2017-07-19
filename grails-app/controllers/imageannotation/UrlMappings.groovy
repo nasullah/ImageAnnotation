@@ -16,6 +16,7 @@ class UrlMappings {
         "/api/centres"(resources:"centre")
         "/api/experts"(resources:"expert")
         "/api/imagetypes"(resources:"imageType")
+        "/api/multiplexImages"(resources:"multiplexImage")
         "/api/pathologyimages"(resources:"pathologyImage")
         "/api/specialities"(resources:"speciality")
         "/api/studies"(resources:"study")
