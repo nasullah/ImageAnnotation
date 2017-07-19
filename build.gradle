@@ -50,6 +50,7 @@ dependencies {
     compile 'org.grails.plugins:spring-security-core:3.1.2'
     compile 'org.grails.plugins:spring-security-ui:3.0.0.M2'
     compile "org.grails.plugins:spring-security-rest:2.0.0.M2"
+    provided "org.springframework.boot:spring-boot-starter-tomcat"
 }
 
 bootRun {
