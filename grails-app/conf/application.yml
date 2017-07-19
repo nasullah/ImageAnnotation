@@ -120,15 +120,19 @@ environments:
             password: password
             pooled: true
             driverClassName: org.postgresql.Driver
-
 ---
 environments:
     development:
         grails:
-            serverURL: http://localhost:8080
+            serverURL: http://localhost:8080/AIDA
     test:
         grails:
             serverURL: http://localhost:8080
     production:
         grails:
-            serverURL: http://imageannotation.nds.ox.ac.uk:8080
+            serverURL: http://imageannotation.nds.ox.ac.uk:8080/AIDA
+---
+server:
+    contextPath: '/AIDA'
+    compression:
+          enabled: true
