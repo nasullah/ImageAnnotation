@@ -130,9 +130,23 @@ environments:
             serverURL: http://localhost:8080
     production:
         grails:
-            serverURL: http://imageannotation.nds.ox.ac.uk:8080/AIDA
+            serverURL: https://imageannotation.nds.ox.ac.uk:8443/AIDA
 ---
 server:
     contextPath: '/AIDA'
     compression:
           enabled: true
+---
+environments:
+    development:
+        uploadFolder: /upload_folder/
+    test:
+        uploadFolder: /upload_folder/
+    production:
+        uploadFolder: /upload_folder/
+---
+ grails:
+     controllers:
+         upload:
+             maxFileSize: 50000000
+             maxRequestSize: 50000000
