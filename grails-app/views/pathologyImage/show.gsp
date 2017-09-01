@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'pathologyImage.label', default: 'PathologyImage')}" />
+        <g:set var="entityName" value="${message(code: 'pathologyImage.label', default: 'Pathology Image')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'annotationTask.label', default: 'AnnotationTask')}" />
+        <g:set var="entityName" value="${message(code: 'annotationTask.label', default: 'Annotation Task')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
