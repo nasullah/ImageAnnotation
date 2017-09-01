@@ -16,22 +16,45 @@
 <body>
 
     <div class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="container">
+        <div class="container" style="min-width: 1400px;">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/#">
-                    Image Annotation
-                </a>
+
             </div>
             <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
-                <ul class="nav navbar-nav navbar-right pull-right">
+                <ul class="nav navbar-nav navbar-left pull-left">
 
-                    <li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <a class="navbar-brand" href="/AIDA"><span class="glyphicon glyphicon-home"></span>
+                        AIDA
+                    </a>
 
                     <sec:ifLoggedIn>
+                        <li class="">
+                            <g:if test="${sec?.username()?.toString()?.contains('.')}">
+                                <g:link controller="login" action="auth"><span class="glyphicon glyphicon-user"></span> ${sec?.username()?.toString()?.substring(0, sec?.username()?.toString()?.lastIndexOf('.'))?.capitalize()}</g:link>
+                            </g:if>
+                            <g:else>
+                                <g:link controller="login" action="auth"><span class="glyphicon glyphicon-user"></span> ${sec?.username()?.capitalize()}</g:link>
+                            </g:else>
+                        </li>
+
                         <li class="">
                             <a href="${createLink(uri: '/study/index')}">
                                 <i class="glyphicon glyphicon-list"></i>
                                 Studies
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="${createLink(uri: '/expert/index')}">
+                                <i class="glyphicon glyphicon-list"></i>
+                                Experts
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="${createLink(uri: '/pathologyImage/create')}">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                Upload Images
                             </a>
                         </li>
 
@@ -44,16 +67,16 @@
                             <ul class="dropdown-menu" style="height: auto; max-height: 350px; width: 270px; overflow-x: hidden;">
 
                                 <li class="">
-                                    <a href="${createLink(uri: '/annotation/list')}">
-                                        <i class="glyphicon glyphicon-question-sign"></i>
-                                        Un-annotated Images
+                                    <a href="${createLink(uri: '/pathologyImage/annotatedImages')}">
+                                        <i class="glyphicon glyphicon-ok-sign"></i>
+                                        Annotated Images
                                     </a>
                                 </li>
 
                                 <li class="">
-                                    <a href="${createLink(uri: '/annotation/list')}">
-                                        <i class="glyphicon glyphicon-ok-sign"></i>
-                                        Annotated Images
+                                    <a href="${createLink(uri: '/pathologyImage/unAnnotatedImages')}">
+                                        <i class="glyphicon glyphicon-question-sign"></i>
+                                        Un-annotated Images
                                     </a>
                                 </li>
 
@@ -103,11 +126,57 @@
                                     </a>
                                 </li>
 
+                                <li class="">
+                                    <a tabindex="-1" href="#">
+                                        <b>Dropdown List Management</b></a>
+                                </li>
+
+                                <li class="">
+                                    <a href="${createLink(uri: '/annotationStep')}">
+                                        <i class="glyphicon glyphicon-list"></i>
+                                        Annotation Step
+                                    </a>
+                                </li>
+
+                                <li class="">
+                                    <a href="${createLink(uri: '/annotationTask')}">
+                                        <i class="glyphicon glyphicon-list"></i>
+                                        Annotation Task
+                                    </a>
+                                </li>
+
+                                <li class="">
+                                    <a href="${createLink(uri: '/annotationTool')}">
+                                        <i class="glyphicon glyphicon-list"></i>
+                                        Annotation Tool
+                                    </a>
+                                </li>
+
+                                <li class="">
+                                    <a href="${createLink(uri: '/centre')}">
+                                        <i class="glyphicon glyphicon-list"></i>
+                                        Centre
+                                    </a>
+                                </li>
+
+                                <li class="">
+                                    <a href="${createLink(uri: '/imageType')}">
+                                        <i class="glyphicon glyphicon-list"></i>
+                                        Image Type
+                                    </a>
+                                </li>
+
+                                <li class="">
+                                    <a href="${createLink(uri: '/speciality')}">
+                                        <i class="glyphicon glyphicon-list"></i>
+                                        Speciality
+                                    </a>
+                                </li>
+
                             </ul>
 
                         </li>
                     </sec:ifLoggedIn>
-
 
                     <sec:ifNotLoggedIn>
                         <g:form controller="login" class="navbar-form navbar-left" >
@@ -133,7 +202,7 @@
                     </sec:ifLoggedIn>
 
                     %{--<g:pageProperty name="page.nav" />--}%
-                    <i class="fa grails-icon">
+                    <i class="fa grails-icon" style="position:absolute;top:5px;right:45px;bottom:5px">
                         <asset:image src="oxford-logo.png"/>
                     </i>
                 </ul>
@@ -144,11 +213,12 @@
 
     <g:layoutBody/>
 
-    %{--<div class="footer" role="contentinfo"></div>--}%
+    %{--<div class="footer" role="contentinfo">University of Oxford 2017</div>--}%
 
-    <footer class="footer">
-        <div class="container" style="margin-bottom: 10px;">
-            <div class="row text-center">
+    <footer style="position:absolute;bottom:0;width:100%;height:60px;   /* Height of the footer */background:#f0f0f0;">
+        <div class="container" style="text-align:center">
+            <div>
+                <br/>
                 &#169; University of Oxford 2017
             </div>
         </div>
