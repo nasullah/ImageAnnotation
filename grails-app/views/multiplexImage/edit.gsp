@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'multiplexImage.label', default: 'MultiplexImage')}" />
+        <g:set var="entityName" value="${message(code: 'multiplexImage.label', default: 'Multiplex Image')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -31,6 +31,7 @@
                 <fieldset class="form">
                     <f:all bean="multiplexImage"/>
                 </fieldset>
+                <br>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
                 </fieldset>

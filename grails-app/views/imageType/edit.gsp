@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'imageType.label', default: 'ImageType')}" />
+        <g:set var="entityName" value="${message(code: 'imageType.label', default: 'Image Type')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -30,6 +30,7 @@
                 <g:hiddenField name="version" value="${this.imageType?.version}" />
                 <fieldset class="form">
                     <f:all bean="imageType"/>
+                    <br>
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />

@@ -29,8 +29,9 @@
             <g:form resource="${this.study}" method="PUT">
                 <g:hiddenField name="version" value="${this.study?.version}" />
                 <fieldset class="form">
-                    <f:all bean="study"/>
+                    <f:all bean="study" except="multiplexImages"/>
                 </fieldset>
+                <br/>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
                 </fieldset>

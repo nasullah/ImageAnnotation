@@ -31,6 +31,7 @@
                 <fieldset class="form">
                     <f:all bean="centre"/>
                 </fieldset>
+                <br>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
                 </fieldset>

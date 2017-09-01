@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'annotationStep.label', default: 'AnnotationStep')}" />
+        <g:set var="entityName" value="${message(code: 'annotationStep.label', default: 'Annotation Step')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -29,8 +29,9 @@
             <g:form resource="${this.annotationStep}" method="PUT">
                 <g:hiddenField name="version" value="${this.annotationStep?.version}" />
                 <fieldset class="form">
-                    <f:all bean="annotationStep"/>
+                    <f:all bean="annotationStep" except="annotationTools"/>
                 </fieldset>
+                <br>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
                 </fieldset>
