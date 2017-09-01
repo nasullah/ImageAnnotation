@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'annotationTool.label', default: 'AnnotationTool')}" />
+        <g:set var="entityName" value="${message(code: 'annotationTool.label', default: 'Annotation Tool')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -29,8 +29,9 @@
                 <fieldset class="form">
                     <f:all bean="annotationTool"/>
                 </fieldset>
+                <br>
                 <fieldset class="buttons">
-                    <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                    <g:submitButton name="create" class="save" value="Save" />
                 </fieldset>
             </g:form>
         </div>

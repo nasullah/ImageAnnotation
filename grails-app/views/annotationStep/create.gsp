@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'annotationStep.label', default: 'AnnotationStep')}" />
+        <g:set var="entityName" value="${message(code: 'annotationStep.label', default: 'Annotation Step')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -27,10 +27,11 @@
             </g:hasErrors>
             <g:form resource="${this.annotationStep}" method="POST">
                 <fieldset class="form">
-                    <f:all bean="annotationStep"/>
+                    <f:all bean="annotationStep" except="annotationTools"/>
                 </fieldset>
+                <br>
                 <fieldset class="buttons">
-                    <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                    <g:submitButton name="create" class="save" value="Save" />
                 </fieldset>
             </g:form>
         </div>

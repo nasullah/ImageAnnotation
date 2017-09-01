@@ -29,8 +29,9 @@
                 <fieldset class="form">
                     <f:all bean="centre"/>
                 </fieldset>
+                <br>
                 <fieldset class="buttons">
-                    <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                    <g:submitButton name="create" class="save" value="Save" />
                 </fieldset>
             </g:form>
         </div>
