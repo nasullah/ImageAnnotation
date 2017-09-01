@@ -1,5 +1,7 @@
 package imageannotation
 
+import grails.converters.*
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.plugin.springsecurity.annotation.Secured
@@ -27,33 +29,25 @@ class AnnotationController {
 
     }
 
+    def getAnnotation() {
+        def annotation = Annotation.list()
+        if (!annotation.empty){
+            render contentType: "text/json", text: annotation?.last()?.annotationData
+        }else {
+            render contentType: "text/json", text: '[]'
+        }
+    }
+
     def testOpenSeaDragon(){
 
     }
 
     @Transactional
-    def save(Annotation annotation) {
-        if (annotation == null) {
-            transactionStatus.setRollbackOnly()
-            notFound()
-            return
-        }
-
-        if (annotation.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond annotation.errors, view:'create'
-            return
-        }
-
+    def save() {
+        def annotation = new Annotation(params)
+        annotation.annotationData = request.JSON.annotationData
         annotation.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'annotation.label', default: 'Annotation'), annotation.id])
-                redirect annotation
-            }
-            '*' { respond annotation, [status: CREATED] }
-        }
+        redirect(controller: "annotation", action: "testAnnotationTools")
     }
 
     def edit(Annotation annotation) {
