@@ -1,5 +1,8 @@
 package imageannotation
 
+import grails.converters.JSON
+import grails.web.context.ServletContextHolder
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.plugin.springsecurity.annotation.Secured
@@ -23,6 +26,24 @@ class PathologyImageController {
         respond new PathologyImage(params)
     }
 
+    def unAnnotatedImages(){
+        def unAnnotatedPathologyImages = PathologyImage.list()
+        unAnnotatedPathologyImages = unAnnotatedPathologyImages.findAll {pathologyImage -> !Annotation.findByPathologyImage(pathologyImage)}
+        [unAnnotatedPathologyImages:unAnnotatedPathologyImages]
+    }
+
+    def annotatedImages(){
+        def annotatedPathologyImages = PathologyImage.list()
+        annotatedPathologyImages = annotatedPathologyImages.findAll {pathologyImage -> Annotation.findByPathologyImage(pathologyImage)}
+        [annotatedPathologyImages:annotatedPathologyImages]
+    }
+
+    def viewPathologyImageOnOpenSeeDragon(){
+        def path = '../assets/attachments/dzi_images/HEDZ/HEDZ.dzi'
+        def data = [path:path]
+        render data as JSON
+    }
+
     @Transactional
     def save(PathologyImage pathologyImage) {
         if (pathologyImage == null) {
@@ -38,6 +59,22 @@ class PathologyImageController {
         }
 
         pathologyImage.save flush:true
+
+        def imageFile = request.getFile('imageFile')
+        if (imageFile?.originalFilename){
+            pathologyImage.imagePath = ServletContextHolder.servletContext.getRealPath('/assets/attachments') + '/' + pathologyImage.id + '.' + imageFile.originalFilename
+            def destinationFile = new File(pathologyImage.imagePath)
+
+            try {
+                imageFile.transferTo(destinationFile)
+                pathologyImage.save flush: true
+            }
+            catch (Exception ex) {
+                log.error(ex)
+                pathologyImage.imagePath = null
+                pathologyImage.save flush: true
+            }
+        }
 
         request.withFormat {
             form multipartForm {
