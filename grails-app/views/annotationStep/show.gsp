@@ -24,6 +24,7 @@
                 <fieldset class="buttons">
                     <g:link class="edit" action="edit" resource="${this.annotationStep}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
                     <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+                    <g:link controller="annotationTool" action="create" params="['annotationStep.id': annotationStep?.id]"><i class="glyphicon glyphicon-plus"></i> Add Annotation Tool </g:link>
                 </fieldset>
             </g:form>
         </div>

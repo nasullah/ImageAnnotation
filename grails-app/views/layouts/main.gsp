@@ -90,7 +90,7 @@
                                 Administration <b class="caret"></b>
                             </a>
 
-                            <ul class="dropdown-menu" style="height: auto; max-height: 350px; width: 270px; overflow-x: hidden;">
+                            <ul class="dropdown-menu" style="height: auto; max-height: 375px; width: 270px; overflow-x: hidden;">
                                 <li class="">
                                     <a tabindex="-1" href="#">
                                         <b>User Access Management</b></a>

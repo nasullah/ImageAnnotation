@@ -19,7 +19,7 @@
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:display bean="pathologyImage" />
+            <f:display bean="pathologyImage" except="annotations"/>
             <g:form resource="${this.pathologyImage}" method="DELETE">
                 <fieldset class="buttons">
                     <g:link class="edit" action="edit" resource="${this.pathologyImage}"><g:message code="default.button.edit.label" default="Edit" /></g:link>

@@ -27,7 +27,7 @@
             </g:hasErrors>
             <g:form resource="${this.multiplexImage}" method="POST">
                 <fieldset class="form">
-                    <f:all bean="multiplexImage"/>
+                    <f:all bean="multiplexImage" except="pathologyImages"/>
                 </fieldset>
                 <br>
                 <fieldset class="buttons">
