@@ -42,7 +42,8 @@ class MultiplexImageController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'multiplexImage.label', default: 'MultiplexImage'), multiplexImage.id])
-                redirect multiplexImage
+//                redirect multiplexImage
+                redirect(controller:'study',action: 'show', params: [id: multiplexImage.study.id])
             }
             '*' { respond multiplexImage, [status: CREATED] }
         }
@@ -71,7 +72,8 @@ class MultiplexImageController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'multiplexImage.label', default: 'MultiplexImage'), multiplexImage.id])
-                redirect multiplexImage
+//                redirect multiplexImage
+                redirect(controller:'study',action: 'show', params: [id: multiplexImage.study.id])
             }
             '*'{ respond multiplexImage, [status: OK] }
         }
@@ -91,7 +93,8 @@ class MultiplexImageController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'multiplexImage.label', default: 'MultiplexImage'), multiplexImage.id])
-                redirect action:"index", method:"GET"
+//                redirect action:"index", method:"GET"
+                redirect(controller:'study',action: 'show', params: [id: multiplexImage.study.id])
             }
             '*'{ render status: NO_CONTENT }
         }

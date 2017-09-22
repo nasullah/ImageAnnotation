@@ -42,7 +42,8 @@ class AnnotationStepController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'annotationStep.label', default: 'AnnotationStep'), annotationStep.id])
-                redirect annotationStep
+//                redirect annotationStep
+                redirect(controller:'annotationTask',action: 'show', params: [id: annotationStep.annotationTask.id])
             }
             '*' { respond annotationStep, [status: CREATED] }
         }
@@ -71,7 +72,8 @@ class AnnotationStepController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'annotationStep.label', default: 'AnnotationStep'), annotationStep.id])
-                redirect annotationStep
+//                redirect annotationStep
+                redirect(controller:'annotationTask',action: 'show', params: [id: annotationStep.annotationTask.id])
             }
             '*'{ respond annotationStep, [status: OK] }
         }
@@ -91,7 +93,8 @@ class AnnotationStepController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'annotationStep.label', default: 'AnnotationStep'), annotationStep.id])
-                redirect action:"index", method:"GET"
+//                redirect action:"index", method:"GET"
+                redirect(controller:'annotationTask',action: 'show', params: [id: annotationStep.annotationTask.id])
             }
             '*'{ render status: NO_CONTENT }
         }

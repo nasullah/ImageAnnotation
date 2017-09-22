@@ -42,7 +42,8 @@ class AnnotationToolController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'annotationTool.label', default: 'AnnotationTool'), annotationTool.id])
-                redirect annotationTool
+//                redirect annotationTool
+                redirect(controller:'annotationStep',action: 'show', params: [id: annotationTool.annotationStep.id])
             }
             '*' { respond annotationTool, [status: CREATED] }
         }
@@ -71,7 +72,8 @@ class AnnotationToolController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'annotationTool.label', default: 'AnnotationTool'), annotationTool.id])
-                redirect annotationTool
+//                redirect annotationTool
+                redirect(controller:'annotationStep',action: 'show', params: [id: annotationTool.annotationStep.id])
             }
             '*'{ respond annotationTool, [status: OK] }
         }
@@ -91,7 +93,8 @@ class AnnotationToolController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'annotationTool.label', default: 'AnnotationTool'), annotationTool.id])
-                redirect action:"index", method:"GET"
+//                redirect action:"index", method:"GET"
+                redirect(controller:'annotationStep',action: 'show', params: [id: annotationTool.annotationStep.id])
             }
             '*'{ render status: NO_CONTENT }
         }
