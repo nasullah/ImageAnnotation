@@ -8,11 +8,13 @@ class MultiplexImage {
     static constraints = {
         study()
         multiplexImageIdentifier()
-        multiplexImagePath()
+        multiplexImageName()
+        multiplexImageDesc(nullable: true)
     }
 
     String multiplexImageIdentifier
-    String multiplexImagePath
+    String multiplexImageName
+    String multiplexImageDesc
 
     /*
      * Methods of the Domain Class
