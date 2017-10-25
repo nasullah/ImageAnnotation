@@ -27,6 +27,13 @@
                         AIDA
                     </a>
 
+                    <li class="">
+                        <a href="${createLink(uri: '/aidaDemo')}">
+                            <i class="glyphicon glyphicon-play-circle"></i>
+                            AIDA Demo
+                        </a>
+                    </li>
+
                     <sec:ifLoggedIn>
                         <li class="">
                             <g:if test="${sec?.username()?.toString()?.contains('.')}">
@@ -37,145 +44,155 @@
                             </g:else>
                         </li>
 
-                        <li class="">
-                            <a href="${createLink(uri: '/study/index')}">
-                                <i class="glyphicon glyphicon-list"></i>
-                                Studies
-                            </a>
-                        </li>
+                        <sec:ifAnyGranted roles="ROLE_ADMIN">
+                            <li class="">
+                                <a href="${createLink(uri: '/study/index')}">
+                                    <i class="glyphicon glyphicon-list"></i>
+                                    Studies
+                                </a>
+                            </li>
 
-                        <li class="">
-                            <a href="${createLink(uri: '/expert/index')}">
-                                <i class="glyphicon glyphicon-list"></i>
-                                Experts
-                            </a>
-                        </li>
+                            <li class="">
+                                <a href="${createLink(uri: '/pathologyImage/create')}">
+                                    <i class="glyphicon glyphicon-upload"></i>
+                                    Upload Images
+                                </a>
+                            </li>
 
-                        <li class="">
-                            <a href="${createLink(uri: '/pathologyImage/create')}">
-                                <i class="glyphicon glyphicon-upload"></i>
-                                Upload Images
-                            </a>
-                        </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                    Image Annotation <b class="caret"></b>
+                                </a>
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="glyphicon glyphicon-pencil"></i>
-                                Image Annotation <b class="caret"></b>
-                            </a>
+                                <ul class="dropdown-menu" style="height: auto; max-height: 350px; width: 270px; overflow-x: hidden;">
 
-                            <ul class="dropdown-menu" style="height: auto; max-height: 350px; width: 270px; overflow-x: hidden;">
+                                    <li class="">
+                                        <a href="${createLink(uri: '/multiplexImage/index')}">
+                                            <i class="glyphicon glyphicon-ok-sign"></i>
+                                            All Images
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/pathologyImage/annotatedImages')}">
-                                        <i class="glyphicon glyphicon-ok-sign"></i>
-                                        Annotated Images
-                                    </a>
-                                </li>
+                                </ul>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/pathologyImage/unAnnotatedImages')}">
-                                        <i class="glyphicon glyphicon-question-sign"></i>
-                                        Un-annotated Images
-                                    </a>
-                                </li>
+                            </li>
 
-                            </ul>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="glyphicon glyphicon-cog white"></i>
+                                    Administration <b class="caret"></b>
+                                </a>
 
-                        </li>
+                                <ul class="dropdown-menu" style="height: auto; max-height: 410px; width: 270px; overflow-x: hidden;">
+                                    <li class="">
+                                        <a tabindex="-1" href="#">
+                                            <b>User Access Management</b></a>
+                                    </li>
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="glyphicon glyphicon-cog white"></i>
-                                Administration <b class="caret"></b>
-                            </a>
+                                    <p>
 
-                            <ul class="dropdown-menu" style="height: auto; max-height: 375px; width: 270px; overflow-x: hidden;">
-                                <li class="">
-                                    <a tabindex="-1" href="#">
-                                        <b>User Access Management</b></a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/role/create')}">
+                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                            Add Role
+                                        </a>
+                                    </li>
 
-                                <p>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/role')}">
+                                            <i class="glyphicon glyphicon-search"></i>
+                                            Search Role
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/role/create')}">
-                                        <i class="glyphicon glyphicon-plus-sign"></i>
-                                        Add Role
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/user/create')}">
+                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                            Add User
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/role')}">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                        Search Role
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/user')}">
+                                            <i class="glyphicon glyphicon-search"></i>
+                                            Search User
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/user/create')}">
-                                        <i class="glyphicon glyphicon-plus-sign"></i>
-                                        Add User
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a tabindex="-1" href="#">
+                                            <b>Dropdown List Management</b></a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/user')}">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                        Search User
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/expert')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Annotator
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a tabindex="-1" href="#">
-                                        <b>Dropdown List Management</b></a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/annotationStep')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Annotation Step
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/annotationStep')}">
-                                        <i class="glyphicon glyphicon-list"></i>
-                                        Annotation Step
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/annotationTask')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Annotation Task
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/annotationTask')}">
-                                        <i class="glyphicon glyphicon-list"></i>
-                                        Annotation Task
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/annotationTool')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Annotation Tool
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/annotationTool')}">
-                                        <i class="glyphicon glyphicon-list"></i>
-                                        Annotation Tool
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/centre')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Centre
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/centre')}">
-                                        <i class="glyphicon glyphicon-list"></i>
-                                        Centre
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/imageType')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Image Type
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/imageType')}">
-                                        <i class="glyphicon glyphicon-list"></i>
-                                        Image Type
-                                    </a>
-                                </li>
+                                    <li class="">
+                                        <a href="${createLink(uri: '/speciality')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Speciality
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a href="${createLink(uri: '/speciality')}">
-                                        <i class="glyphicon glyphicon-list"></i>
-                                        Speciality
-                                    </a>
-                                </li>
+                                </ul>
 
-                            </ul>
+                            </li>
+                        </sec:ifAnyGranted>
+                        <sec:ifAnyGranted roles="ROLE_USER">
+                            <li class="">
+                                <a href="${createLink(uri: '/study/yourStudyList')}">
+                                    <i class="glyphicon glyphicon-list"></i>
+                                    Your Study List
+                                </a>
+                            </li>
 
-                        </li>
+                            <li class="">
+                                <a href="${createLink(uri: '/multiplexImage/yourImageList')}">
+                                    <i class="glyphicon glyphicon-list"></i>
+                                    Your Image List
+                                </a>
+                            </li>
+                        </sec:ifAnyGranted>
                     </sec:ifLoggedIn>
 
                     <sec:ifNotLoggedIn>

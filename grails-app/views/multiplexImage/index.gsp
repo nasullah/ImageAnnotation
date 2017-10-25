@@ -6,23 +6,35 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        <a href="#list-multiplexImage" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-        <div class="nav" role="navigation">
-            <ul>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-            </ul>
-        </div>
-        <div id="list-multiplexImage" class="content scaffold-list" role="main">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-                <div class="message" role="status">${flash.message}</div>
-            </g:if>
-            <f:table collection="${multiplexImageList}" />
+    <table class="table table-bordered margin-top-medium">
+        <thead>
+        <tr>
 
-            <div class="pagination">
-                <g:paginate total="${multiplexImageCount ?: 0}" />
-            </div>
-        </div>
+            <g:sortableColumn property="study" title="Study" />
+
+            <g:sortableColumn property="multiplexImageIdentifier" title="Multiplex Image Identifier" />
+
+            <g:sortableColumn property="multiplexImageName" title="Multiplex Image Name" />
+
+            <th>View</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <g:each in="${multiplexImageList}" status="i" var="image">
+            <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+
+                <td><g:link action="show" id="${image.id}">${fieldValue(bean: image, field: "study")}</g:link></td>
+
+                <td>${fieldValue(bean: image, field: "multiplexImageIdentifier")}</td>
+
+                <td>${fieldValue(bean: image, field: "multiplexImageName")}</td>
+
+                <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':'sdfssfsdfdfdsf']"> View</g:link></td>
+
+            </tr>
+        </g:each>
+        </tbody>
+    </table>
     </body>
 </html>
