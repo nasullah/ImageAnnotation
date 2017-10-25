@@ -11,6 +11,9 @@ class StudyController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    def springSecurityService
+
+    @Secured('ROLE_ADMIN')
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Study.list(params), model:[studyCount: Study.count()]
@@ -27,6 +30,24 @@ class StudyController {
     def testapi(){
         def  studyList = Study.list()
         render studyList as JSON
+    }
+
+    def yourStudyList(){
+        def currentUser = springSecurityService.currentUser.username
+        if (currentUser){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            if(expert){
+                def  studyList =Study.findAllByStudyOwner(expert)
+                respond studyList
+            }
+        }
     }
 
     @Transactional
