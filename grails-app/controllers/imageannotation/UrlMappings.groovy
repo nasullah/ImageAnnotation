@@ -12,6 +12,7 @@ class UrlMappings {
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')
+        "/aidaDemo"(view:"/aidaDemo")
         "/api/annotations"(resources:"annotation")
         "/api/centres"(resources:"centre")
         "/api/experts"(resources:"expert")
