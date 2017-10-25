@@ -7,11 +7,11 @@ class Annotation {
         annotationData type: "text"
     }
 
-    static belongsTo = [pathologyImage:PathologyImage]
+    static belongsTo = [multiplexImage:MultiplexImage]
     static constraints = {
-        pathologyImage(nullable: true)
-        annotationData()
-        imageAnnotator(nullable: true)
+        multiplexImage()
+        annotationData(widget: 'textarea')
+        imageAnnotator()
     }
 
     String annotationData
