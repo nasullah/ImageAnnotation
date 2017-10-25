@@ -74,6 +74,9 @@ class PathologyImageController {
                 pathologyImage.imagePath = null
                 pathologyImage.save flush: true
             }
+        } else{
+            pathologyImage.imagePath = '../assets/attachments/' + pathologyImage.multiplexImage.study.studyName.toString() + '/' + pathologyImage.imageIdentifier.toString() + '_' + pathologyImage.id.toString() + '/' + pathologyImage.imageIdentifier.toString() + '.dzi'
+            pathologyImage.save flush: true
         }
 
         request.withFormat {

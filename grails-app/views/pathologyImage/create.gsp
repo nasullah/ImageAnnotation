@@ -27,7 +27,7 @@
             </g:hasErrors>
             <g:uploadForm resource="${this.pathologyImage}" method="POST">
                 <fieldset class="form">
-                    <f:all bean="pathologyImage" except="imagePath,annotations"/>
+                    <f:all bean="pathologyImage" except="imagePath"/>
                     <div>
                         <g:field type="file" name="imageFile"/>
                     </div>

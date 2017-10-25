@@ -29,7 +29,7 @@
             <g:form resource="${this.pathologyImage}" method="PUT">
                 <g:hiddenField name="version" value="${this.pathologyImage?.version}" />
                 <fieldset class="form">
-                    <f:all bean="pathologyImage" except="imagePath,annotations"/>
+                    <f:all bean="pathologyImage" except="imagePath"/>
                 </fieldset>
                 <br/>
                 <fieldset class="buttons">
