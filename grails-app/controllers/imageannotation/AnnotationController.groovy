@@ -12,6 +12,8 @@ class AnnotationController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    def springSecurityService
+
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Annotation.list(params), model:[annotationCount: Annotation.count()]
@@ -25,29 +27,67 @@ class AnnotationController {
         respond new Annotation(params)
     }
 
-    def testAnnotationTools(){
-
+    def viewImageOnOS(){
     }
 
     def getAnnotation() {
-        def annotation = Annotation.list()
-        if (!annotation.empty){
-            render contentType: "text/json", text: annotation?.last()?.annotationData
-        }else {
-            render contentType: "text/json", text: '[]'
+        def expert = Expert.findById(params.annotatorId)
+        def multiplexImage = MultiplexImage.findById(params.imageId)
+        if(expert && multiplexImage){
+            def annotation = Annotation.findAllByImageAnnotatorAndMultiplexImage(expert, multiplexImage)
+            if (!annotation.empty){
+                render contentType: "text/json", text: annotation?.last()?.annotationData
+            }
         }
     }
 
-    def testOpenSeaDragon(){
-
+    @Transactional
+    def saveAnnotation() {
+        def multiplexImage = MultiplexImage.findById(request.JSON.imageId)
+        def currentUser = springSecurityService?.currentUser?.username
+        if (currentUser?.toString()?.contains('.')){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            if(expert){
+                def annotation = new Annotation()
+                annotation.multiplexImage = multiplexImage
+                annotation.annotationData = request.JSON
+                annotation.imageAnnotator = expert
+                annotation.save failOnError: true
+                redirect(controller: "annotation", action: "viewImageOnOS", params: [imageId: annotation?.multiplexImage?.id])
+            }
+        }
     }
 
     @Transactional
-    def save() {
-        def annotation = new Annotation(params)
-        annotation.annotationData = request.JSON.annotationData
+    def save(Annotation annotation) {
+        if (annotation == null) {
+            transactionStatus.setRollbackOnly()
+            notFound()
+            return
+        }
+
+        if (annotation.hasErrors()) {
+            transactionStatus.setRollbackOnly()
+            respond annotation.errors, view:'create'
+            return
+        }
+
         annotation.save flush:true
-        redirect(controller: "annotation", action: "testAnnotationTools")
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.created.message', args: [message(code: 'annotation.label', default: 'annotation'), annotation.id])
+                redirect annotation
+            }
+            '*' { respond annotation, [status: CREATED] }
+        }
     }
 
     def edit(Annotation annotation) {
