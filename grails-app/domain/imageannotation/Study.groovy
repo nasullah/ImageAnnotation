@@ -6,9 +6,11 @@ class Study {
     static hasMany = [multiplexImages:MultiplexImage]
     static constraints = {
         studyName()
+        studyOwner()
     }
 
     String studyName
+    Expert studyOwner
 
     /*
     * Methods of the Domain Class
