@@ -28,7 +28,7 @@
                     </a>
 
                     <li class="">
-                        <a href="${createLink(uri: '/aidaDemo')}">
+                        <a href="https://imageannotation.nds.ox.ac.uk:8443/aidademo" target="_blank">
                             <i class="glyphicon glyphicon-play-circle"></i>
                             AIDA Demo
                         </a>
