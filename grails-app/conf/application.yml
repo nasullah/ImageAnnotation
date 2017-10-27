@@ -136,14 +136,8 @@ server:
     contextPath: '/AIDA'
     compression:
           enabled: true
----
-environments:
-    development:
-        uploadFolder: /upload_folder/
-    test:
-        uploadFolder: /upload_folder/
-    production:
-        uploadFolder: /upload_folder/
+    session:
+          timeout: 7200
 ---
  grails:
      controllers:
