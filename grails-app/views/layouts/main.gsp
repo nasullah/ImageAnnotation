@@ -84,7 +84,7 @@
                                     Administration <b class="caret"></b>
                                 </a>
 
-                                <ul class="dropdown-menu" style="height: auto; max-height: 410px; width: 270px; overflow-x: hidden;">
+                                <ul class="dropdown-menu" style="height: auto; max-height: 450px; width: 270px; overflow-x: hidden;">
                                     <li class="">
                                         <a tabindex="-1" href="#">
                                             <b>User Access Management</b></a>
@@ -174,6 +174,13 @@
                                         </a>
                                     </li>
 
+                                    <li class="">
+                                        <a href="${createLink(uri: '/studyType')}">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            Study Type
+                                        </a>
+                                    </li>
+
                                 </ul>
 
                             </li>
@@ -190,6 +197,14 @@
                                 <a href="${createLink(uri: '/multiplexImage/yourImageList')}">
                                     <i class="glyphicon glyphicon-list"></i>
                                     Your Image List
+                                </a>
+                            </li>
+                        </sec:ifAnyGranted>
+                        <sec:ifAnyGranted roles="ROLE_SHARE">
+                            <li class="">
+                                <a href="${createLink(uri: '/multiplexImage/sharedImageList')}">
+                                    <i class="glyphicon glyphicon-list"></i>
+                                    Shared Image List
                                 </a>
                             </li>
                         </sec:ifAnyGranted>
@@ -236,7 +251,7 @@
         <div class="container" style="text-align:center">
             <div>
                 <br/>
-                &#169; University of Oxford 2017
+                &#169; University of Oxford 2018
             </div>
         </div>
     </footer>
