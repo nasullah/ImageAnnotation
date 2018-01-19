@@ -34,7 +34,12 @@ class AnnotationController {
         def expert = Expert.findById(params.annotatorId)
         def multiplexImage = MultiplexImage.findById(params.imageId)
         if(expert && multiplexImage){
-            def annotation = Annotation.findAllByImageAnnotatorAndMultiplexImage(expert, multiplexImage)
+            def annotation
+            if(multiplexImage?.study?.studyType?.studyTypeName == 'Shared'){
+                annotation = Annotation.findAllByMultiplexImage(multiplexImage)
+            }else{
+                annotation = Annotation.findAllByImageAnnotatorAndMultiplexImage(expert, multiplexImage)
+            }
             if (!annotation.empty){
                 render contentType: "text/json", text: annotation?.last()?.annotationData
             }

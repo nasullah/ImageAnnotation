@@ -38,8 +38,27 @@ class MultiplexImageController {
                 }
             }
             if(expert){
-                def  imageList =Annotation.findAllByImageAnnotator(expert).multiplexImage
+                def imageList = Annotation.findAllByImageAnnotator(expert).multiplexImage
+                imageList = imageList.findAll {it?.study?.studyType?.studyTypeName != 'Shared'}
                 [imageList: imageList?.unique()?.sort{it?.study?.studyName}, annotatorId:expert.id]
+            }
+        }
+    }
+
+    def sharedImageList(){
+        def currentUser = springSecurityService.currentUser.username
+        if (currentUser){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            if(expert){
+                def imageList = MultiplexImage.findAllByStudy(Study.findByStudyType(StudyType.findByStudyTypeName('Shared')))
+                [imageList: imageList?.sort{it?.study?.studyName}, annotatorId:expert.id]
             }
         }
     }

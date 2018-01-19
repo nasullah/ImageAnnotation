@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'multiplexImage.label', default: 'Your Image')}" />
+    <g:set var="entityName" value="${message(code: 'multiplexImage.label', default: 'Shared Image List')}" />
     <title><g:message code="default.list.label" args="[entityName]" /></title>
 </head>
 <body>
