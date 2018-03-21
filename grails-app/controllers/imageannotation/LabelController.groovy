@@ -42,11 +42,36 @@ class LabelController {
         }
         def patchList = Patch.findAllByLabelsIsEmpty().id
         def random = new Random()
-        def patchInstanceId = patchList.get(random.nextInt(patchList.size()))
-        //def patchInstance = patchList.sort{new Random()}.take(1)[0]
-        def patchInstance = Patch.findById(patchInstanceId)
-        def imagePath = patchInstance?.patchPath
-        [imagePath:imagePath, patchId:patchInstance?.id, count: count]
+        if(!patchList.empty){
+            def patchInstanceId = patchList.get(random.nextInt(patchList.size()))
+            def patchInstance = Patch.findById(patchInstanceId)
+            def imagePath = patchInstance?.patchPath
+            [imagePath:imagePath, patchId:patchInstance?.id, count: count]
+        }
+    }
+
+    def reviewLabels(){
+        def nextInstance = params.int('nextInstance')
+        def previousInstance = params.int('previousInstance')
+        def count = Label.list().size()
+        def labelList = Label.list().sort {it?.id}
+        def labelInstance
+        if(nextInstance != null){
+            def currentInstanceIndex = labelList.findIndexOf {it == labelList[nextInstance + 1]}
+            labelInstance = labelList[currentInstanceIndex]
+            def imagePath = labelInstance?.patch?.patchPath
+            [imagePath:imagePath, labelName:labelInstance.labelName, count: count, currentInstance:currentInstanceIndex]
+        }else if (previousInstance != null){
+            def currentInstanceIndex = labelList.findIndexOf {it == labelList[previousInstance - 1]}
+            labelInstance = labelList[currentInstanceIndex]
+            def imagePath = labelInstance?.patch?.patchPath
+            [imagePath:imagePath, labelName:labelInstance.labelName, count: count, currentInstance:currentInstanceIndex]
+        }
+        else {
+            labelInstance = labelList[0]
+            def imagePath = labelInstance?.patch?.patchPath
+            [imagePath:imagePath, labelName:labelInstance.labelName, count: count, currentInstance:0]
+        }
     }
 
     @Transactional
