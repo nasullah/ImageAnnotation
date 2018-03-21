@@ -207,6 +207,12 @@
                                     Shared Image List
                                 </a>
                             </li>
+                            <li class="">
+                                <a href="${createLink(uri: '/label/displayImage')}">
+                                    <i class="glyphicon glyphicon-tag"></i>
+                                    Label Images
+                                </a>
+                            </li>
                         </sec:ifAnyGranted>
                     </sec:ifLoggedIn>
 

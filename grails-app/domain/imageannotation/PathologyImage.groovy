@@ -4,6 +4,7 @@ class PathologyImage {
 
     static auditable = true
     static belongsTo = [multiplexImage:MultiplexImage]
+    static hasMany = [patches:Patch]
     static constraints = {
         multiplexImage()
         imageIdentifier()
