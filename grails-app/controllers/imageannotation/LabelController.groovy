@@ -10,6 +10,7 @@ class LabelController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     def springSecurityService
+    def exportService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -74,6 +75,27 @@ class LabelController {
         }
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def exportLabels(){
+        if(params?.extension && params?.extension != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params?.extension]
+            response.setHeader("Content-disposition", "attachment; filename= Exported Labels.${params.extension}")
+            def patchList = Patch.findAllByIterationNumber(params?.iterationNumber)
+            def labelList = Label.findAllByPatchInList(patchList)
+            List fields = ["patch.iterationNumber", "patch.confidence", "patch.pathologyImage.imageIdentifier", "patch.imageLevel", "patch.imageSize", "patch.xCoordinate",
+                           "patch.yCoordinate", "labelName", "labeler.familyName"]
+            Map labels = ["patch.confidence":"Confidence", "patch.pathologyImage.imageIdentifier":"Image file", "patch.imageLevel":"Level",
+                          "patch.imageSize":"Image size", "patch.xCoordinate":"X coordinate","patch.yCoordinate":"Y coordinate",
+                          "labelName":"Label", "labeler.familyName":"Annotator", "patch.iterationNumber":"Iteration Number"]
+            def labeler = { domain, value ->
+                return domain?.labeler?.givenName + " " + domain?.labeler?.familyName
+            }
+            Map formatters = ["labeler.familyName":labeler]
+            Map parameters = [title: "Label"]
+            exportService.export(params.extension, response.outputStream, labelList, fields, labels, formatters, parameters )
+        }
+    }
+
     @Transactional
     def saveLabel(){
         def currentUser = springSecurityService?.currentUser?.username
@@ -87,12 +109,14 @@ class LabelController {
                 }
             }
             def labelName = params.labelName
+            def comment = params.comment
             def patch = Patch.findById(params.patchId)
             if(expert && patch && labelName){
                 def label = new Label()
                 label.patch = patch
                 label.labeler = expert
                 label.labelName = labelName
+                label.comment = comment
                 label.save failOnError: true
                 flash.message = "Previous label saved successfully."
                 redirect action:"displayImage"
