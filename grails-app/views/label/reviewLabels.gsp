@@ -9,8 +9,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <g:set var="entityName" value="${message(code: 'annotation.label', default: 'Annotation')}"/>
-    <title><g:message code="default.show.label" args="[entityName]"/></title>
+    <title>Review Labels</title>
 </head>
 
 <body>
@@ -38,16 +37,14 @@
             <div style="width:64px;height:64px;border:1px solid #ffff00;position: absolute;left: 224px;top: 224px;"></div>
         </div>
         <hr>
-        <g:form action="saveLabel" method="post">
             <g:hiddenField name="currentInstance" value="${currentInstance}"/>
             <g:radioGroup style="height:22px; width:22px;" name="labelName"
-                          labels="['Tumour', 'Benign', 'Stroma', 'Lumen', 'PIN', 'Not sure']"
-                          values="[1, 2, 3, 4, 5, 6]"
+                          labels="['Tumour', 'Benign', 'Stroma', 'Lumen', 'PIN', 'Not sure', 'Lymphoid cells']"
+                          values="[1, 2, 3, 4, 5, 6, 7]"
                           value="${labelName}"
                           disabled="${'true'}" >
                 <span style="font-size:22px">&nbsp; ${it.label} ${it.radio} &nbsp;</span>
             </g:radioGroup>
-        </g:form>
         <hr>
     %{--</g:if>--}%
     %{--<g:else>--}%
