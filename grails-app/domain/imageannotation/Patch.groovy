@@ -17,6 +17,9 @@ class Patch {
         iterationNumber()
         xCoordinate()
         yCoordinate()
+        confidence(nullable: true)
+        imageLevel(nullable: true)
+        imageSize(nullable: true)
     }
 
     String patchName
@@ -24,6 +27,9 @@ class Patch {
     String iterationNumber
     String xCoordinate
     String yCoordinate
+    String confidence
+    String imageLevel
+    String imageSize
 
     public String toString() {
         return "Patch Name: ${patchName}, Iteration Number: ${iterationNumber}";
