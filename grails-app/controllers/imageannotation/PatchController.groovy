@@ -27,24 +27,45 @@ class PatchController {
 
     @Transactional
     def savePatch(){
-        def dirPath = ServletContextHolder.servletContext.getRealPath('assets/attachments/Prostate_Cancer_Annotations/4463153D_349/4463153D_patch')
-        def dir = new File(dirPath).list()
-        dir.each {item ->
-            def parts = item.toString().split('&&')
-            def xCoordinate = parts[1].split('_')[1]
-            def yCoordinate = parts[2].split('_')[1].split("\\.")[0]
-            def patchPath = 'attachments/Prostate_Cancer_Annotations/4463153D_349/4463153D_patch/' + item
-            def pathologyImage = PathologyImage.findByImageIdentifier('4463153D')
-            def patchInstance = new Patch()
-            patchInstance.iterationNumber = '1'
-            patchInstance.patchName = item
-            patchInstance.patchPath = patchPath
-            patchInstance.pathologyImage = pathologyImage
-            patchInstance.xCoordinate = xCoordinate
-            patchInstance.yCoordinate = yCoordinate
-            patchInstance.save failOnError: true
+        if (!request.getFile('csvFile')?.originalFilename) {
+            flash.message = "Please choose a file"
+            redirect(uri: "/patch/create")
+        }else{
+            request.getFile('csvFile').inputStream.splitEachLine(',')
+                    { fields ->
+                        def folderPath = fields[0].trim()
+                        def patchFolderPath = fields[1].trim()
+                        def patchIterationNumber = fields[2].trim()
+                        if (folderPath && patchFolderPath){
+                            println(folderPath)
+                            println(patchFolderPath)
+                            def dirPath = ServletContextHolder.servletContext.getRealPath(folderPath)
+                            def dir = new File(dirPath).list()
+                            dir.each {item ->
+                                def parts = item.toString().split('&&')
+                                def imageLevel = parts[1].split('_')[1]
+                                def imageSize = parts[2].split('_')[1]
+                                def confidence = parts[3].split('_')[1]
+                                def xCoordinate = parts[4].split('_')[1]
+                                def yCoordinate = parts[5].split('_')[1].split("\\.")[0]
+                                def patchPath = patchFolderPath + item
+                                def pathologyImage = PathologyImage.findByImageIdentifier(parts[0].split('_')[0])
+                                def patchInstance = new Patch()
+                                patchInstance.iterationNumber = patchIterationNumber
+                                patchInstance.patchName = item
+                                patchInstance.patchPath = patchPath
+                                patchInstance.pathologyImage = pathologyImage
+                                patchInstance.xCoordinate = xCoordinate
+                                patchInstance.yCoordinate = yCoordinate
+                                patchInstance.imageLevel = imageLevel
+                                patchInstance.imageSize = imageSize
+                                patchInstance.confidence = confidence
+                                patchInstance.save failOnError: true
+                            }
+                        }
+                    }
+            redirect action: "index", method: "GET"
         }
-        redirect action: "index", method: "GET"
     }
 
     @Transactional

@@ -34,5 +34,15 @@
                 </fieldset>
             </g:form>
         </div>
+
+        <g:form action="savePatch" method="post" enctype="multipart/form-data">
+            <p>
+            </p>
+            <p class="text-success">Upload file to generate patch records</p>
+            <input type="file" name="csvFile" id="csvFile" />
+            <p>
+            </p>
+            <button type="submit" class="btn btn-success btn-xs" value="Upload"><span class="glyphicon glyphicon-upload"></span> Upload</button>
+        </g:form>
     </body>
 </html>
