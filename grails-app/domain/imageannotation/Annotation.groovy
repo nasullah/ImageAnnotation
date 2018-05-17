@@ -22,6 +22,6 @@ class Annotation {
      */
     @Override	// Override toString for a nicer / more descriptive UI
     public String toString() {
-        return "Annotator: ${imageAnnotator}";
+        return "Annotator: ${imageAnnotator}, Id: ${id} ";
     }
 }
