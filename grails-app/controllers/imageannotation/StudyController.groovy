@@ -104,6 +104,7 @@ class StudyController {
         }
     }
 
+    @Secured('ROLE_ADMIN')
     @Transactional
     def delete(Study study) {
 
