@@ -41,6 +41,7 @@ class AnnotationController {
                 annotation = Annotation.findAllByImageAnnotatorAndMultiplexImage(expert, multiplexImage)
             }
             if (!annotation.empty){
+                annotation = annotation.sort{it.id}
                 render contentType: "text/json", text: annotation?.last()?.annotationData
             }
         }
