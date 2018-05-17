@@ -33,7 +33,7 @@
 
                 <td>${fieldValue(bean: image, field: "multiplexImageName")}</td>
 
-                <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
+                <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
 
             </tr>
         </g:each>
