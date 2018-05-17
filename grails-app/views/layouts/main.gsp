@@ -7,14 +7,11 @@
         <g:layoutTitle default="Grails"/>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
     <asset:stylesheet src="application.css"/>
-
     <g:layoutHead/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 </head>
 <body>
-
     <div class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container" style="min-width: 1400px;">
             <div class="navbar-header">
@@ -185,37 +182,7 @@
 
                             </li>
                         </sec:ifAnyGranted>
-                        <sec:ifAnyGranted roles="ROLE_USER">
-                            <li class="">
-                                <a href="${createLink(uri: '/study/yourStudyList')}">
-                                    <i class="glyphicon glyphicon-list"></i>
-                                    Your Study List
-                                </a>
-                            </li>
-
-                            <li class="">
-                                <a href="${createLink(uri: '/multiplexImage/yourImageList')}">
-                                    <i class="glyphicon glyphicon-list"></i>
-                                    Your Image List
-                                </a>
-                            </li>
-                        </sec:ifAnyGranted>
-                        <sec:ifAnyGranted roles="ROLE_SHARE">
-                            <li class="">
-                                <a href="${createLink(uri: '/multiplexImage/sharedImageList')}">
-                                    <i class="glyphicon glyphicon-list"></i>
-                                    Shared Image List
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="${createLink(uri: '/label/displayImage')}">
-                                    <i class="glyphicon glyphicon-tag"></i>
-                                    Label Images
-                                </a>
-                            </li>
-                        </sec:ifAnyGranted>
                     </sec:ifLoggedIn>
-
                     <sec:ifNotLoggedIn>
                         <g:form controller="login" class="navbar-form navbar-left" >
 
@@ -225,7 +192,6 @@
 
                         </g:form>
                     </sec:ifNotLoggedIn>
-
                     <sec:ifLoggedIn>
                         <g:form controller="logout" action="index" class="navbar-form navbar-left" >
 
@@ -238,8 +204,6 @@
 
                         </g:form>
                     </sec:ifLoggedIn>
-
-                    %{--<g:pageProperty name="page.nav" />--}%
                     <i class="fa grails-icon" style="position:absolute;top:5px;right:45px;bottom:5px">
                         <asset:image src="oxford-logo.png"/>
                     </i>
@@ -250,8 +214,6 @@
     </div>
 
     <g:layoutBody/>
-
-    %{--<div class="footer" role="contentinfo">University of Oxford 2017</div>--}%
 
     <footer style="position:absolute;bottom:0;width:100%;height:60px;   /* Height of the footer */background:#f0f0f0;">
         <div class="container" style="text-align:center">
