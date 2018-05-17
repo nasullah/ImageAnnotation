@@ -27,6 +27,7 @@ class MultiplexImageController {
     }
 
     def yourImageList(){
+        def study = Study.findByStudyName(params.study)
         def currentUser = springSecurityService.currentUser.username
         if (currentUser){
             def forename = currentUser?.toString()?.split("\\.")[0]
@@ -40,6 +41,7 @@ class MultiplexImageController {
             if(expert){
                 def imageList = Annotation.findAllByImageAnnotator(expert).multiplexImage
                 imageList = imageList.findAll {it?.study?.studyType?.studyTypeName != 'Shared'}
+                imageList = imageList.findAll {it.study == study}
                 [imageList: imageList?.unique()?.sort{it?.study?.studyName}, annotatorId:expert.id]
             }
         }
@@ -57,7 +59,7 @@ class MultiplexImageController {
                 }
             }
             if(expert){
-                def imageList = MultiplexImage.findAllByStudy(Study.findByStudyType(StudyType.findByStudyTypeName('Shared')))
+                def imageList = MultiplexImage.findAllByStudy(Study.findByStudyName(params.study))
                 [imageList: imageList?.sort{it?.study?.studyName}, annotatorId:expert.id]
             }
         }
@@ -119,6 +121,7 @@ class MultiplexImageController {
         }
     }
 
+    @Secured('ROLE_ADMIN')
     @Transactional
     def delete(MultiplexImage multiplexImage) {
 
