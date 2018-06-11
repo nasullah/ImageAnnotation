@@ -41,7 +41,7 @@ class LabelController {
                 count = Label.findAllByLabeler(expert)?.size()
             }
         }
-        def patchList = Patch.findAllByLabelsIsEmpty().id
+        def patchList = Patch.findAllByLabelsIsEmptyAndPathologyImageInList(PathologyImage.findAllByMultiplexImageInList(MultiplexImage.findAllByStudy(Study.findByStudyName('Prostate_Cancer_Annotations')))).id
         def random = new Random()
         if(!patchList.empty){
             def patchInstanceId = patchList.get(random.nextInt(patchList.size()))
@@ -51,11 +51,44 @@ class LabelController {
         }
     }
 
+    def displayTransplantImagePatches(){
+        def currentUser = springSecurityService?.currentUser?.username
+        def labelList = []
+        def labeledPatchesList = []
+        def count = 0
+        if (currentUser?.toString()?.contains('.')){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            if(expert){
+                labelList = Label.findAllByLabeler(expert)
+                count = labelList?.size()
+                labeledPatchesList = labelList?.patch?.id
+
+            }
+        }
+        def patchList = Patch.findAllByPathologyImageInList(PathologyImage.findAllByMultiplexImageInList(MultiplexImage.findAllByStudy(Study.findByStudyName('Kidney_Image_Annotation')))).id
+        def newList = patchList - labeledPatchesList
+        def random = new Random()
+        if(!newList.empty){
+            def patchInstanceId = newList.get(random.nextInt(newList.size()))
+            def patchInstance = Patch.findById(patchInstanceId)
+            def imagePath = patchInstance?.patchPath
+            [imagePath:imagePath, patchId:patchInstance?.id, count: count]
+        }
+    }
+
     def reviewLabels(){
         def nextInstance = params.int('nextInstance')
         def previousInstance = params.int('previousInstance')
-        def count = Label.list().size()
-        def labelList = Label.list().sort {it?.id}
+        def patchList = Patch.findAllByPathologyImageInList(PathologyImage.findAllByMultiplexImageInList(MultiplexImage.findAllByStudy(Study.findByStudyName('Prostate_Cancer_Annotations'))))
+        def count = Label.findAllByPatchInList(patchList).size()
+        def labelList = Label.findAllByPatchInList(patchList).sort {it?.id}
         def labelInstance
         if(nextInstance != null){
             def currentInstanceIndex = labelList.findIndexOf {it == labelList[nextInstance + 1]}
@@ -75,6 +108,37 @@ class LabelController {
         }
     }
 
+    def reviewTransplantLabels(){
+        def nextInstance = params.int('nextInstance')
+        def previousInstance = params.int('previousInstance')
+        def patchList = Patch.findAllByPathologyImageInList(PathologyImage.findAllByMultiplexImageInList(MultiplexImage.findAllByStudy(Study.findByStudyName('Kidney_Image_Annotation'))))
+        def count = Label.findAllByPatchInList(patchList).size()
+        def labelList = Label.findAllByPatchInList(patchList).sort {it?.id}
+        def labelInstance
+        if(nextInstance != null){
+            def currentInstanceIndex = labelList.findIndexOf {it == labelList[nextInstance + 1]}
+            labelInstance = labelList[currentInstanceIndex]
+            def imagePath = labelInstance?.patch?.patchPath
+            def labelInformative = labelInstance?.labelName?.toString()?.split('_')[0]
+            def labelHealthy = labelInstance?.labelName?.toString()?.split('_')[1]
+            [imagePath:imagePath, labelInformative:labelInformative, labelHealthy:labelHealthy, count: count, currentInstance:currentInstanceIndex]
+        }else if (previousInstance != null){
+            def currentInstanceIndex = labelList.findIndexOf {it == labelList[previousInstance - 1]}
+            labelInstance = labelList[currentInstanceIndex]
+            def imagePath = labelInstance?.patch?.patchPath
+            def labelInformative = labelInstance?.labelName?.toString()?.split('_')[0]
+            def labelHealthy = labelInstance?.labelName?.toString()?.split('_')[1]
+            [imagePath:imagePath, labelInformative:labelInformative, labelHealthy:labelHealthy, count: count, currentInstance:currentInstanceIndex]
+        }
+        else {
+            labelInstance = labelList[0]
+            def imagePath = labelInstance?.patch?.patchPath
+            def labelInformative = labelInstance?.labelName?.toString()?.split('_')[0]
+            def labelHealthy = labelInstance?.labelName?.toString()?.split('_')[1]
+            [imagePath:imagePath, labelInformative:labelInformative, labelHealthy:labelHealthy, count: count, currentInstance:0]
+        }
+    }
+
     @Secured(['ROLE_ADMIN'])
     def exportLabels(){
         if(params?.extension && params?.extension != "html"){
@@ -82,7 +146,7 @@ class LabelController {
             response.setHeader("Content-disposition", "attachment; filename= Exported Labels.${params.extension}")
             def patchList = Patch.findAllByIterationNumber(params?.iterationNumber)
             def labelList = Label.findAllByPatchInList(patchList)
-            List fields = ["patch.iterationNumber", "patch.confidence", "patch.pathologyImage.imageIdentifier", "patch.imageLevel", "patch.imageSize", "patch.xCoordinate",
+            List fields = ["patch.patchName", "patch.iterationNumber", "patch.confidence", "patch.pathologyImage.imageIdentifier", "patch.imageLevel", "patch.imageSize", "patch.xCoordinate",
                            "patch.yCoordinate", "labelName", "labeler.familyName"]
             Map labels = ["patch.confidence":"Confidence", "patch.pathologyImage.imageIdentifier":"Image file", "patch.imageLevel":"Level",
                           "patch.imageSize":"Image size", "patch.xCoordinate":"X coordinate","patch.yCoordinate":"Y coordinate",
@@ -127,6 +191,42 @@ class LabelController {
             }
         }else {
             redirect action:"displayImage"
+        }
+    }
+
+    @Transactional
+    def saveRatings(){
+        def currentUser = springSecurityService?.currentUser?.username
+        if (currentUser?.toString()?.contains('.')){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            def labelInformative = params.labelInformative
+            def labelHealthy = params.labelHealthy
+            def labelName = labelInformative.toString() + '_' + labelHealthy.toString()
+            def comment = params.comment
+            def patch = Patch.findById(params.patchId)
+            if(expert && patch && labelName){
+                def label = new Label()
+                label.patch = patch
+                label.labeler = expert
+                label.labelName = labelName
+                label.comment = comment
+                label.save failOnError: true
+                flash.message = "Previous ratings saved successfully."
+                redirect action:"displayTransplantImagePatches"
+            }
+            else {
+                flash.message = "Previous ratings not saved."
+                redirect action:"displayTransplantImagePatches"
+            }
+        }else {
+            redirect action:"displayTransplantImagePatches"
         }
     }
 

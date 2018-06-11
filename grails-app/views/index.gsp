@@ -20,7 +20,7 @@
                             <i class="glyphicon glyphicon-tasks"></i> Hempath
                         </div>
                         <div class="panel-body">
-                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'Hempath']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Hempath']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,9 @@
                             <i class="glyphicon glyphicon-tasks"></i> Kidney Image Annotation
                         </div>
                         <div class="panel-body">
-                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Kidney_Image_Annotation']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Kidney_Image_Annotation']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
+                            <g:link controller="label" action="displayTransplantImagePatches"><i class="glyphicon glyphicon-thumbs-up"></i> Rate Images</g:link><br><br>
+                            <g:link controller="label" action="reviewTransplantLabels"><i class="glyphicon glyphicon-ok-sign"></i> Review Labels</g:link>
                         </div>
                     </div>
                 </div>
