@@ -37,8 +37,6 @@ class PatchController {
                         def patchFolderPath = fields[1].trim()
                         def patchIterationNumber = fields[2].trim()
                         if (folderPath && patchFolderPath){
-                            println(folderPath)
-                            println(patchFolderPath)
                             def dirPath = ServletContextHolder.servletContext.getRealPath(folderPath)
                             def dir = new File(dirPath).list()
                             dir.each {item ->
@@ -66,6 +64,51 @@ class PatchController {
                     }
             redirect action: "index", method: "GET"
         }
+    }
+
+    @Transactional
+    def saveKidneyPatch(){
+        if (!request.getFile('csvFile')?.originalFilename) {
+            flash.message = "Please choose a file"
+            redirect(uri: "/patch/create")
+        }else{
+            request.getFile('csvFile').inputStream.splitEachLine(',')
+                    { fields ->
+                        def folderPath = fields[0].trim()
+                        def patchFolderPath = fields[1].trim()
+                        def patchIterationNumber = fields[2].trim()
+                        def pathologyImage = PathologyImage.findByImageIdentifier(fields[3].trim())
+                        if (folderPath && patchFolderPath){
+                            def dirPath = ServletContextHolder.servletContext.getRealPath(folderPath)
+                            def dir = new File(dirPath).list()
+                            dir.each {item ->
+                                def parts = item.toString().split('_')
+                                def xCoordinate = parts[1]
+                                def yCoordinate = parts[2].split("\\.")[0]
+                                def patchPath = patchFolderPath + item
+                                def patchInstance = new Patch()
+                                patchInstance.iterationNumber = patchIterationNumber
+                                patchInstance.patchName = item
+                                patchInstance.patchPath = patchPath
+                                patchInstance.pathologyImage = pathologyImage
+                                patchInstance.xCoordinate = xCoordinate
+                                patchInstance.yCoordinate = yCoordinate
+                                patchInstance.save failOnError: true
+                            }
+                        }
+                    }
+            redirect action: "index", method: "GET"
+        }
+    }
+
+    @Transactional
+    def removeSpace(){
+        def patchList = Patch.list()
+        patchList.each {item ->
+            item.patchPath = item?.patchPath?.toString()?.replace(' ', '-')
+            item.save failOnError: true
+        }
+        redirect action: "index", method: "GET"
     }
 
     @Transactional
