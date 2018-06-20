@@ -59,8 +59,14 @@ class MultiplexImageController {
                 }
             }
             if(expert){
-                def imageList = MultiplexImage.findAllByStudy(Study.findByStudyName(params.study))
-                [imageList: imageList?.sort{it?.study?.studyName}, annotatorId:expert.id]
+                if (params.suffix){
+                    def imageList = MultiplexImage.findAllByStudy(Study.findByStudyName(params.study))
+                    imageList = imageList.findAll {it.multiplexImageIdentifier.endsWith(params.suffix)}
+                    [imageList: imageList?.sort{it?.study?.studyName}, annotatorId:expert.id]
+                }else {
+                    def imageList = MultiplexImage.findAllByStudy(Study.findByStudyName(params.study))
+                    [imageList: imageList?.sort{it?.study?.studyName}, annotatorId:expert.id]
+                }
             }
         }
     }

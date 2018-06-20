@@ -30,7 +30,20 @@
                             <i class="glyphicon glyphicon-tasks"></i> Megakaryocyte Detection
                         </div>
                         <div class="panel-body">
-                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Megakaryocyte_Detection']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Megakaryocyte_Detection', suffix: 'N']"><i class="glyphicon glyphicon-list"></i> Normal Cases</g:link><br><br>
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Megakaryocyte_Detection', suffix: 'ET']"><i class="glyphicon glyphicon-list"></i> ET Cases</g:link><br><br>
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Megakaryocyte_Detection', suffix: 'PMF']"><i class="glyphicon glyphicon-list"></i> PMF Cases</g:link><br><br>
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Megakaryocyte_Detection', suffix: 'MDS']"><i class="glyphicon glyphicon-list"></i> MDS Cases</g:link>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> Megakaryocyte Detection CD61
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Megakaryocyte_Detection_CD61']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
                         </div>
                     </div>
                 </div>
