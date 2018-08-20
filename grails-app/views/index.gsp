@@ -40,6 +40,16 @@
                 <div class="col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> Megakaryocyte Prediction Validation
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'Megakaryocyte_Prediction_Validation']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <i class="glyphicon glyphicon-tasks"></i> Megakaryocyte Detection CD61
                         </div>
                         <div class="panel-body">
@@ -85,6 +95,25 @@
                             <g:link controller="multiplexImage" action="sharedImageList" params="[study:'SSM Project']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
                             <g:link controller="label" action="displayImage"><i class="glyphicon glyphicon-tag"></i> Label Images</g:link><br><br>
                             <g:link controller="label" action="reviewLabels"><i class="glyphicon glyphicon-ok-sign"></i> Review Labels</g:link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <hr>
+</sec:ifAnyGranted>
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PROSTATE_ANNOTATION">
+    <div class="container-fluid">
+        <section id="info">
+            <div class="equal">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> Prostate Annotations Study
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'Prostate_Annotations_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
                         </div>
                     </div>
                 </div>
