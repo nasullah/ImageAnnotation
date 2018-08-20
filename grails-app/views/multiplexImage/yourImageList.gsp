@@ -26,14 +26,24 @@
         <tbody>
         <g:each in="${imageList}" status="i" var="image">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                <g:if test="${image.study.studyName == 'Megakaryocyte_Prediction_Validation'}">
+                    <td>${fieldValue(bean: image, field: "study")}</td>
 
-                <td>${fieldValue(bean: image, field: "study")}</td>
+                    <td>|||||</td>
 
-                <td>${fieldValue(bean: image, field: "multiplexImageIdentifier")}</td>
+                    <td>|||||</td>
 
-                <td>${fieldValue(bean: image, field: "multiplexImageName")}</td>
+                    <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
+                </g:if>
+                <g:else>
+                    <td>${fieldValue(bean: image, field: "study")}</td>
 
-                <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
+                    <td>${fieldValue(bean: image, field: "multiplexImageIdentifier")}</td>
+
+                    <td>${fieldValue(bean: image, field: "multiplexImageName")}</td>
+
+                    <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
+                </g:else>
 
             </tr>
         </g:each>
