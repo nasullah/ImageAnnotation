@@ -5,6 +5,7 @@ class Annotation {
     static auditable = true
     static mapping = {
         annotationData type: "text"
+        comment type: "text"
     }
 
     static belongsTo = [multiplexImage:MultiplexImage]
@@ -12,10 +13,14 @@ class Annotation {
         multiplexImage()
         annotationData(widget: 'textarea')
         imageAnnotator()
+        comment(nullable: true)
+        stage(nullable: true)
     }
 
     String annotationData
     Expert imageAnnotator
+    String comment
+    String stage
 
     /*
      * Methods of the Domain Class
