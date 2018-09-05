@@ -39,7 +39,7 @@ class MultiplexImageController {
                 }
             }
             if(expert){
-                def imageList = Annotation.findAllByImageAnnotator(expert).multiplexImage
+                def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage
                 imageList = imageList.findAll {it?.study?.studyType?.studyTypeName != 'Shared'}
                 imageList = imageList.findAll {it.study == study}
                 [imageList: imageList?.unique()?.sort{it?.study?.studyName}, annotatorId:expert.id]
