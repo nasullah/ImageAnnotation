@@ -30,6 +30,17 @@ class AnnotationController {
     def viewImageOnOS(){
     }
 
+    def backToList(){
+        def imageId = params.imageId
+        if (imageId){
+            def study = MultiplexImage.findById(imageId).study
+            redirect(controller: "multiplexImage", action: "yourImageList", params:[study: study?.studyName])
+        }
+    }
+
+    def addComment(){
+    }
+
     def getAnnotation() {
         def expert = Expert.findById(params.annotatorId)
         def multiplexImage = MultiplexImage.findById(params.imageId)
@@ -38,11 +49,37 @@ class AnnotationController {
             if(multiplexImage?.study?.studyType?.studyTypeName == 'Shared'){
                 annotation = Annotation.findAllByMultiplexImage(multiplexImage)
             }else{
-                annotation = Annotation.findAllByImageAnnotatorAndMultiplexImage(expert, multiplexImage)
+                annotation = Annotation.findAllByImageAnnotatorAndMultiplexImageAndStageIsNull(expert, multiplexImage)
             }
             if (!annotation.empty){
                 annotation = annotation.sort{it.id}
                 render contentType: "text/json", text: annotation?.last()?.annotationData
+            }
+        }
+    }
+
+    @Transactional
+    def saveAnnotationWithComment() {
+        def multiplexImage = MultiplexImage.findById(params.imageId)
+        def currentUser = springSecurityService?.currentUser?.username
+        if (currentUser?.toString()?.contains('.')){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            if(expert){
+                def annotation = new Annotation()
+                annotation.multiplexImage = multiplexImage
+                annotation.annotationData = 'No_annotations'
+                annotation.imageAnnotator = expert
+                annotation.comment = params.comment
+                annotation.stage = params.stage
+                annotation.save failOnError: true
+                redirect(controller: "annotation", action: "viewImageOnOS", params: [imageId: annotation?.multiplexImage?.id, annotatorId: expert?.id])
             }
         }
     }
