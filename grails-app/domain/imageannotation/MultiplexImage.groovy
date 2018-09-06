@@ -4,7 +4,7 @@ class MultiplexImage {
 
     static auditable = true
     static belongsTo = [study:Study]
-    static hasMany = [channels:PathologyImage, annotations:Annotation]
+    static hasMany = [channels:PathologyImage, annotations:Annotation, assignments:Assignment]
     static constraints = {
         study()
         multiplexImageIdentifier()

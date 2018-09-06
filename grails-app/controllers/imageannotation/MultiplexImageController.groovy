@@ -39,10 +39,13 @@ class MultiplexImageController {
                 }
             }
             if(expert){
-                def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage
-                imageList = imageList.findAll {it?.study?.studyType?.studyTypeName != 'Shared'}
-                imageList = imageList.findAll {it.study == study}
-                [imageList: imageList?.unique()?.sort{it?.study?.studyName}, annotatorId:expert.id]
+                if (study.studyName == 'Megakaryocyte_Prediction_Validation'){
+                    def imageList = Assignment.findAllByExpert(expert).multiplexImage
+                    [imageList: imageList, annotatorId:expert.id]
+                }else {
+                    def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage
+                    [imageList: imageList?.unique(), annotatorId:expert.id]
+                }
             }
         }
     }

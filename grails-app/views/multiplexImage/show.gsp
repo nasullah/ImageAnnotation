@@ -26,6 +26,7 @@
                     <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
                     <g:link controller="pathologyImage" action="create" params="['multiplexImage.id': multiplexImage?.id]"><i class="glyphicon glyphicon-plus"></i> Add Pathology Image </g:link>
                     <g:link controller="annotation" action="create" params="['multiplexImage.id': multiplexImage?.id]"><i class="glyphicon glyphicon-plus"></i> Add Annotation </g:link>
+                    <g:link controller="assignment" action="create" params="['multiplexImage.id': multiplexImage?.id]"><i class="glyphicon glyphicon-plus"></i> Assign to expert </g:link>
                 </fieldset>
             </g:form>
         </div>
