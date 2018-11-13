@@ -17,11 +17,9 @@
 
             <g:sortableColumn property="multiplexImageIdentifier" title="Multiplex Image Identifier" />
 
-            <g:sortableColumn property="multiplexImageName" title="Multiplex Image Name" />
-
             <th>View</th>
 
-            <g:if test="${imageList?.study?.studyName?.first() == 'Prostate_Annotations_Study'}">
+            <g:if test="${imageList?.study?.studyName?.first() == 'Prostate_Annotations_Study' || imageList?.study?.studyName?.first() == 'TCGA_Prostate_Study'}">
                 <th>Annotation</th>
             </g:if>
 
@@ -35,8 +33,6 @@
 
                     <td>|||||</td>
 
-                    <td>|||||</td>
-
                     <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
                 </g:if>
                 <g:else>
@@ -44,11 +40,9 @@
 
                     <td>${fieldValue(bean: image, field: "multiplexImageIdentifier")}</td>
 
-                    <td>${fieldValue(bean: image, field: "multiplexImageName")}</td>
-
                     <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
 
-                    <g:if test="${image?.study?.studyName == 'Prostate_Annotations_Study'}">
+                    <g:if test="${image?.study?.studyName == 'Prostate_Annotations_Study' || image?.study?.studyName == 'TCGA_Prostate_Study'}">
                         <g:if test="${image?.annotations?.findAll {it.imageAnnotator.id == annotatorId}?.size() > 1}">
                             <td style="color: forestgreen">Complete</td>
                         </g:if>

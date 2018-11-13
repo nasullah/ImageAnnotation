@@ -117,6 +117,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> TCGA Prostate Study
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'TCGA_Prostate_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

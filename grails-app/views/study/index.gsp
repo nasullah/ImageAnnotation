@@ -24,5 +24,8 @@
                 <g:paginate total="${studyCount ?: 0}" />
             </div>
         </div>
+        <br/>
+        <br/>
+        <br/>
     </body>
 </html>
