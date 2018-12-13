@@ -53,7 +53,7 @@
         </g:form>
     </g:if>
     <g:else>
-        <h4>There is no image to be labelled</h4>
+        <h4>You have completed rating all images. Thank you!</h4>
     </g:else>
 </div>
 <br>

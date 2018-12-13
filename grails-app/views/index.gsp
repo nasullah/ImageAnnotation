@@ -98,6 +98,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> Prostate Annotations Study Review
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Prostate_Annotations_Study_Analysis']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
@@ -180,9 +190,9 @@
                             <i class="glyphicon glyphicon-tasks"></i> Kidney Image Annotation
                         </div>
                         <div class="panel-body">
-                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'Kidney_Image_Annotation']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
+                            %{--<g:link controller="multiplexImage" action="sharedImageList" params="[study:'Kidney_Image_Annotation']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>--}%
                             <g:link controller="label" action="displayTransplantImagePatches"><i class="glyphicon glyphicon-thumbs-up"></i> Rate Images</g:link><br><br>
-                            <g:link controller="label" action="reviewTransplantLabels"><i class="glyphicon glyphicon-ok-sign"></i> Review Labels</g:link>
+                            %{--<g:link controller="label" action="reviewTransplantLabels"><i class="glyphicon glyphicon-ok-sign"></i> Review Labels</g:link>--}%
                         </div>
                     </div>
                 </div>

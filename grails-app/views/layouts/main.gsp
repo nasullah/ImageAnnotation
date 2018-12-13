@@ -81,7 +81,7 @@
                                     Administration <b class="caret"></b>
                                 </a>
 
-                                <ul class="dropdown-menu" style="height: auto; max-height: 450px; width: 270px; overflow-x: hidden;">
+                                <ul class="dropdown-menu" style="height: auto; max-height: 510px; width: 270px; overflow-x: hidden;">
                                     <li class="">
                                         <a tabindex="-1" href="#">
                                             <b>User Access Management</b></a>
@@ -175,6 +175,20 @@
                                         <a href="${createLink(uri: '/studyType')}">
                                             <i class="glyphicon glyphicon-list"></i>
                                             Study Type
+                                        </a>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="${createLink(uri: '/multiplexImage/loadImages')}">
+                                            <i class="glyphicon glyphicon-upload"></i>
+                                            Load small images
+                                        </a>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="${createLink(uri: '/multiplexImage/configInterface')}">
+                                            <i class="glyphicon glyphicon-ok-sign"></i>
+                                            Config Interface
                                         </a>
                                     </li>
 

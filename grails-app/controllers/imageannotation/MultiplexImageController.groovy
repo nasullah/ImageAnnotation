@@ -3,6 +3,7 @@ package imageannotation
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.plugin.springsecurity.annotation.Secured
+import grails.web.context.ServletContextHolder
 
 @Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
@@ -72,6 +73,66 @@ class MultiplexImageController {
                 }
             }
         }
+    }
+
+    @Secured('ROLE_ADMIN')
+    def loadImages(){
+    }
+
+    @Secured('ROLE_ADMIN')
+    @Transactional
+    def saveLoadedImages(){
+        def folderName = params.folderName
+        def studyName = params.studyName
+        def realPath = 'assets/attachments/' + folderName
+        def dirPath = ServletContextHolder.servletContext.getRealPath(realPath)
+        def dir = new File(dirPath).list()
+        dir.each {
+            item ->
+                def imageName = item.toString().replace('.jpg','')
+                if(!MultiplexImage.findByMultiplexImageName(imageName)){
+                    def multiplexImage = new MultiplexImage()
+                    multiplexImage.multiplexImageName = imageName
+                    multiplexImage.multiplexImageIdentifier = imageName
+                    multiplexImage.study = Study.findByStudyName(studyName)
+                    multiplexImage.save failOnError: true
+                    def pathologyImage = new PathologyImage()
+                    pathologyImage.imageIdentifier = imageName
+                    pathologyImage.imagePath = '../' + realPath + '/' + item
+                    pathologyImage.imageType = ImageType.findByImageTypeName('Simple')
+                    multiplexImage.addToChannels(pathologyImage).save failOnError: true
+                }
+        }
+        redirect action: "index", method: "GET"
+    }
+
+    @Secured('ROLE_ADMIN')
+    def configInterface(){
+    }
+
+    @Secured('ROLE_ADMIN')
+    @Transactional
+    def saveConfiguration(){
+        def folderName = params.folderName
+        def folderPath = 'assets/attachments/' + folderName
+        def folder = ServletContextHolder.servletContext.getRealPath(folderPath)
+        def folderItems = new File(folder).list()
+        def multiplexImageNameList = []
+        folderItems.each {item -> multiplexImageNameList.add(item.toString().replace('.jpg',''))}
+        def multiplexImageList = MultiplexImage.findAllByMultiplexImageNameInList(multiplexImageNameList)
+        multiplexImageList.each {multiplexImage ->
+            if(multiplexImage){
+                def annotation = new Annotation()
+                def realPath = multiplexImage?.channels[0]?.imagePath
+                def imageName = multiplexImage?.multiplexImageName
+                def annotationData = params.annotationData
+                annotationData = annotationData?.toString()?.replace('images_realPath',realPath)?.replace('images_realName',imageName)
+                annotation.annotationData = annotationData
+                annotation.imageAnnotator = Expert.findById(params.long('annotator'))
+                multiplexImage.addToAnnotations(annotation).save failOnError: true
+            }
+        }
+        redirect action: "index", method: "GET"
     }
 
     @Transactional
