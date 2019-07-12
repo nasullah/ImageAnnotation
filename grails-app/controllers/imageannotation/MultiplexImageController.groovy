@@ -11,6 +11,7 @@ class MultiplexImageController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    def exportService
     def springSecurityService
 
     @Secured('ROLE_ADMIN')
@@ -27,6 +28,28 @@ class MultiplexImageController {
         respond new MultiplexImage(params)
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def exportAnnotations(){
+        if(params?.extension && params?.extension != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params?.extension]
+            response.setHeader("Content-disposition", "attachment; filename= Exported annnotations.${params.extension}")
+            def study = Study.findByStudyName(params.study)
+            def expert = Expert.findById(params.long('annotator'))
+            def annotations = []
+            if(expert){
+                def multiplexImages = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage.unique()
+                for (MultiplexImage image : multiplexImages) {
+                    annotations.add(image.annotations.sort{it.id}.last())
+                }
+            }
+            List fields = ["multiplexImage.multiplexImageIdentifier", "annotationData", "imageAnnotator"]
+            Map labels = ["multiplexImage.multiplexImageIdentifier":"Image", "annotationData":"Annotation", "imageAnnotator":"Annotator"]
+            Map formatters = [:]
+            Map parameters = [title: "Annotation"]
+            exportService.export(params.extension, response.outputStream, annotations, fields, labels, formatters, parameters )
+        }
+    }
+
     def yourImageList(){
         def study = Study.findByStudyName(params.study)
         def currentUser = springSecurityService.currentUser.username
@@ -40,8 +63,8 @@ class MultiplexImageController {
                 }
             }
             if(expert){
-                if (study.studyName == 'Megakaryocyte_Prediction_Validation'){
-                    def imageList = Assignment.findAllByExpert(expert).multiplexImage
+                if (study?.studyName == 'Megakaryocyte_Prediction_Validation'){
+                    def imageList = Assignment.findAllByExpert(expert)?.multiplexImage
                     [imageList: imageList, annotatorId:expert.id]
                 }else {
                     def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage
@@ -52,6 +75,7 @@ class MultiplexImageController {
     }
 
     def sharedImageList(){
+        def study = Study.findByStudyName(params.study)
         def currentUser = springSecurityService.currentUser.username
         if (currentUser){
             def forename = currentUser?.toString()?.split("\\.")[0]
@@ -63,7 +87,10 @@ class MultiplexImageController {
                 }
             }
             if(expert){
-                if (params.suffix){
+                if (study?.studyName == 'TCGA_Prostate_Study'){
+                    def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(Expert.findById(250), study?.multiplexImages).multiplexImage
+                    [imageList: imageList?.unique(), annotatorId:expert.id]
+                }else if (params.suffix){
                     def imageList = MultiplexImage.findAllByStudy(Study.findByStudyName(params.study))
                     imageList = imageList.findAll {it.multiplexImageIdentifier.endsWith(params.suffix)}
                     [imageList: imageList?.sort{it?.study?.studyName}, annotatorId:expert.id]
@@ -89,18 +116,21 @@ class MultiplexImageController {
         def dir = new File(dirPath).list()
         dir.each {
             item ->
-                def imageName = item.toString().replace('.jpg','')
-                if(!MultiplexImage.findByMultiplexImageName(imageName)){
-                    def multiplexImage = new MultiplexImage()
-                    multiplexImage.multiplexImageName = imageName
-                    multiplexImage.multiplexImageIdentifier = imageName
-                    multiplexImage.study = Study.findByStudyName(studyName)
-                    multiplexImage.save failOnError: true
-                    def pathologyImage = new PathologyImage()
-                    pathologyImage.imageIdentifier = imageName
-                    pathologyImage.imagePath = '../' + realPath + '/' + item
-                    pathologyImage.imageType = ImageType.findByImageTypeName('Simple')
-                    multiplexImage.addToChannels(pathologyImage).save failOnError: true
+                def imageName = null
+                if (item.toString().contains('.png') || item.toString().contains('.dzi') || item.toString().contains('.jpg')){
+                    imageName = item.toString().replace('.png','').replace('.dzi','').replace('.jpg','')
+                    if(!MultiplexImage.findByMultiplexImageName(imageName)){
+                        def multiplexImage = new MultiplexImage()
+                        multiplexImage.multiplexImageName = imageName
+                        multiplexImage.multiplexImageIdentifier = imageName
+                        multiplexImage.study = Study.findByStudyName(studyName)
+                        multiplexImage.save failOnError: true
+                        def pathologyImage = new PathologyImage()
+                        pathologyImage.imageIdentifier = imageName
+                        pathologyImage.imagePath = '../' + realPath + '/' + item
+                        pathologyImage.imageType = ImageType.findByImageTypeName('Simple')
+                        multiplexImage.addToChannels(pathologyImage).save failOnError: true
+                    }
                 }
         }
         redirect action: "index", method: "GET"
@@ -118,12 +148,42 @@ class MultiplexImageController {
         def folder = ServletContextHolder.servletContext.getRealPath(folderPath)
         def folderItems = new File(folder).list()
         def multiplexImageNameList = []
-        folderItems.each {item -> multiplexImageNameList.add(item.toString().replace('.jpg',''))}
+        folderItems.each {item -> multiplexImageNameList.add(item.toString().replace('.png','').replace('.dzi','').replace('.jpg',''))}
         def multiplexImageList = MultiplexImage.findAllByMultiplexImageNameInList(multiplexImageNameList)
         multiplexImageList.each {multiplexImage ->
             if(multiplexImage){
                 def annotation = new Annotation()
                 def realPath = multiplexImage?.channels[0]?.imagePath
+                def imageName = multiplexImage?.multiplexImageName
+                def annotationData = params.annotationData
+                annotationData = annotationData?.toString()?.replace('images_realPath',realPath)?.replace('images_realName',imageName)
+                annotation.annotationData = annotationData
+                annotation.imageAnnotator = Expert.findById(params.long('annotator'))
+                multiplexImage.addToAnnotations(annotation).save failOnError: true
+            }
+        }
+        redirect action: "index", method: "GET"
+    }
+
+    @Secured('ROLE_ADMIN')
+    @Transactional
+    def saveConfigurationChannel(){
+        def folderName = params.folderName
+        def folderPath = 'assets/attachments/' + folderName
+        def folder = ServletContextHolder.servletContext.getRealPath(folderPath)
+        def folderItems = new File(folder).list()
+        def multiplexImageNameList = []
+        folderItems.each {
+            item ->
+                if (item.toString().contains('.png') || item.toString().contains('.dzi') || item.toString().contains('.jpg')){
+                    multiplexImageNameList.add(item.toString().replace('.png','').replace('.dzi','').replace('.jpg',''))
+                }
+        }
+        def multiplexImageList = MultiplexImage.findAllByMultiplexImageNameInList(multiplexImageNameList)
+        multiplexImageList.each {multiplexImage ->
+            if(multiplexImage){
+                def annotation = new Annotation()
+                def realPath = '../' + folderPath + '/' + multiplexImage?.multiplexImageName + '/'
                 def imageName = multiplexImage?.multiplexImageName
                 def annotationData = params.annotationData
                 annotationData = annotationData?.toString()?.replace('images_realPath',realPath)?.replace('images_realName',imageName)
