@@ -51,6 +51,32 @@ class LabelController {
         }
     }
 
+    def displaytest(){
+//        def currentUser = springSecurityService?.currentUser?.username
+//        def count = 0
+//        if (currentUser?.toString()?.contains('.')){
+//            def forename = currentUser?.toString()?.split("\\.")[0]
+//            def surname = currentUser?.toString()?.split("\\.")[1]
+//            def expert = Expert.createCriteria().get {
+//                and{
+//                    eq("givenName", forename, [ignoreCase: true])
+//                    eq("familyName", surname, [ignoreCase: true])
+//                }
+//            }
+//            if(expert){
+//                count = Label.findAllByLabeler(expert)?.size()
+//            }
+//        }
+//        def patchList = Patch.findAllByLabelsIsEmptyAndPathologyImageInList(PathologyImage.findAllByMultiplexImageInList(MultiplexImage.findAllByStudy(Study.findByStudyName('Prostate_Cancer_Annotations')))).id
+//        def random = new Random()
+//        if(!patchList.empty){
+//            def patchInstanceId = patchList.get(random.nextInt(patchList.size()))
+//            def patchInstance = Patch.findById(patchInstanceId)
+//            def imagePath = patchInstance?.patchPath
+//            [imagePath:imagePath, patchId:patchInstance?.id, count: count]
+//        }
+    }
+
     def displayTransplantImagePatches(){
         def currentUser = springSecurityService?.currentUser?.username
         def labelList = []
