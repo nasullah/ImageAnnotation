@@ -27,6 +27,49 @@ class AnnotationController {
         respond new Annotation(params)
     }
 
+    def showViewImageOnOS(){
+        def expert = Expert.findById(params.long('annotatorId'))
+        def currentImage = MultiplexImage.findById(params.long('imageId'))
+        def study = currentImage?.study
+        def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages)?.multiplexImage
+        imageList = imageList?.unique()?.sort{it.id}
+        def currentIndex = imageList.indexOf(currentImage)
+        def numberOfImages = imageList?.size()
+        def nextImage = 0
+        def previousImage = 0
+
+        if(numberOfImages > currentIndex + 1){
+            def nextIndex = imageList[currentIndex + 1]
+            nextImage = nextIndex.id
+        }
+        if(currentIndex - 1 >= 0){
+            def previousIndex = imageList[currentIndex - 1]
+            previousImage = previousIndex.id
+        }
+        def status = 0
+        def annotationStatus = Annotation.findAllByStatusIsNotNullAndMultiplexImage(currentImage)
+        if (!annotationStatus.isEmpty()){
+            if (annotationStatus?.last()?.status == 'complete'){
+                status = 1
+            }
+        }
+
+        def dcisStatus = 0
+        if (currentImage?.study?.studyName == 'EUX247_Annotation_Study'){
+            def annotationDCISStatus = Annotation.findAllByDcisStatusIsNotNullAndMultiplexImage(currentImage)
+            if (!annotationDCISStatus.isEmpty()){
+                if (annotationDCISStatus?.last()?.dcisStatus == 'complete'){
+                    dcisStatus = 1
+                }
+            }
+
+        }else {
+            dcisStatus = 2
+        }
+
+
+        redirect(controller: "annotation", action: "viewImageOnOS", params:[imageId: currentImage?.id, annotatorId: expert?.id, nextImage: nextImage, previousImage: previousImage, currentImage: currentImage.multiplexImageName, status: status, dcisStatus: dcisStatus, currentIndex: currentIndex + 1, numberOfImages: numberOfImages])
+    }
     def viewImageOnOS(){
     }
 
@@ -106,6 +149,44 @@ class AnnotationController {
                 redirect(controller: "annotation", action: "viewImageOnOS", params: [imageId: annotation?.multiplexImage?.id])
             }
         }
+    }
+
+    @Transactional
+    def saveAnnotationStatus() {
+        def status = params.long('status')
+        def expert = Expert.findById(params.long('annotatorId'))
+        def currentImage = MultiplexImage.findById(params.long('imageId'))
+
+        if(expert){
+            def annotationList = Annotation.findAllByImageAnnotatorAndMultiplexImageAndStageIsNull(expert, currentImage)
+            def annotation = annotationList?.last()
+            if (status == 1){
+                annotation.status = 'complete'
+            }else {
+                annotation.status = 'incomplete'
+            }
+            annotation.save failOnError: true
+        }
+        redirect(controller: "annotation", action: "showViewImageOnOS", params:[annotatorId: expert?.id, imageId: currentImage?.id])
+    }
+
+    @Transactional
+    def saveDCISStatus() {
+        def status = params.long('status')
+        def expert = Expert.findById(params.long('annotatorId'))
+        def currentImage = MultiplexImage.findById(params.long('imageId'))
+
+        if(expert){
+            def annotationList = Annotation.findAllByImageAnnotatorAndMultiplexImageAndStageIsNull(expert, currentImage)
+            def annotation = annotationList?.last()
+            if (status == 1){
+                annotation.dcisStatus = 'complete'
+            }else {
+                annotation.dcisStatus = 'incomplete'
+            }
+            annotation.save failOnError: true
+        }
+        redirect(controller: "annotation", action: "showViewImageOnOS", params:[annotatorId: expert.id, imageId: currentImage.id])
     }
 
     @Transactional

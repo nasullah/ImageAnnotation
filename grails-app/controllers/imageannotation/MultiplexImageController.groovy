@@ -28,7 +28,6 @@ class MultiplexImageController {
         respond new MultiplexImage(params)
     }
 
-    @Secured(['ROLE_ADMIN'])
     def exportAnnotations(){
         if(params?.extension && params?.extension != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params?.extension]
@@ -39,7 +38,8 @@ class MultiplexImageController {
             if(expert){
                 def multiplexImages = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage.unique()
                 for (MultiplexImage image : multiplexImages) {
-                    annotations.add(image.annotations.sort{it.id}.last())
+                    def latestAnnotation = Annotation.findAllByMultiplexImageAndImageAnnotator(image, expert).sort{it.id}.last()
+                    annotations.add(latestAnnotation)
                 }
             }
             List fields = ["multiplexImage.multiplexImageIdentifier", "annotationData", "imageAnnotator"]
@@ -68,7 +68,7 @@ class MultiplexImageController {
                     [imageList: imageList, annotatorId:expert.id]
                 }else {
                     def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage
-                    [imageList: imageList?.unique(), annotatorId:expert.id]
+                    [imageList: imageList.sort{it.id}?.unique(), annotatorId:expert?.id, study:study?.id]
                 }
             }
         }

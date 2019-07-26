@@ -43,10 +43,10 @@
                 </g:if>
 
                 <g:if test="${image?.study?.studyName == 'TCGA_Prostate_Study'}">
-                    <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':250]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
+                    <td><g:link controller="annotation" action="showViewImageOnOS" params="['imageId': image.id, 'annotatorId':250]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
                 </g:if>
                 <g:else>
-                    <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
+                    <td><g:link controller="annotation" action="showViewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]" target="_blank"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
                 </g:else>
             </tr>
         </g:each>

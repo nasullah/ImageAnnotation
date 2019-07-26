@@ -9,6 +9,17 @@
 <a href="#list-multiplexImage" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 <section id="index-centre" class="first">
 
+    <div class="row">
+        <div>
+            <label class="control-label"><small>Export Annotations</small></label>
+            <div>
+                <a class='btn btn-success btn-sm' <g:link controller="multiplexImage" action="exportAnnotations" params="['format': 'csv', 'extension': 'csv', 'annotator': annotatorId, 'study': study]"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
     <table class="table table-bordered margin-top-medium">
         <thead>
         <tr>
@@ -19,16 +30,18 @@
 
             <th>View</th>
 
-            <g:if test="${imageList?.study?.studyName?.first() == 'Prostate_Annotations_Study' || imageList?.study?.studyName?.first() == 'TCGA_Prostate_Study' || imageList?.study?.studyName?.first() == 'Bladder_Annotation_Study' ||
-                          imageList?.study?.studyName?.first() == 'Bladder_Annotation_Study' || imageList?.study?.studyName?.first() == 'Bladder_ROI_Annotation_Study' || imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study' ||
-                          imageList?.study?.studyName?.first() == 'Bladder_ROI_Annotation_Study_Round_2' || imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study_Round_2' || imageList?.study?.studyName?.first() == 'CODEX_Annotation_Study' ||
-                          imageList?.study?.studyName?.first() == 'Prostate_TMA_Annotation_Study' || imageList?.study?.studyName?.first() == 'Prostate_ICR_Annotation_Study' || imageList?.study?.studyName?.first() == 'EUX247_Annotation_Study' || imageList?.study?.studyName?.first() == 'MIF_annotation_study' ||
-                          imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study_Round_3'}">
-                <th>Annotation</th>
-            </g:if>
-            <g:elseif test="${imageList?.study?.studyName?.first() == 'Prostate_Annotations_Study_Review' || imageList?.study?.studyName?.first() == 'Imperial_Image_Annotation_Study_Review' || imageList?.study?.studyName?.first() == 'Bladder_Prediction_Review_Study'}">
-                <th>Review</th>
-            </g:elseif>
+            <th>Annotation</th>
+
+            %{--<g:if test="${imageList?.study?.studyName?.first() == 'Prostate_Annotations_Study' || imageList?.study?.studyName?.first() == 'TCGA_Prostate_Study' || imageList?.study?.studyName?.first() == 'Bladder_Annotation_Study' ||--}%
+                          %{--imageList?.study?.studyName?.first() == 'Bladder_Annotation_Study' || imageList?.study?.studyName?.first() == 'Bladder_ROI_Annotation_Study' || imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study' ||--}%
+                          %{--imageList?.study?.studyName?.first() == 'Bladder_ROI_Annotation_Study_Round_2' || imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study_Round_2' || imageList?.study?.studyName?.first() == 'CODEX_Annotation_Study' ||--}%
+                          %{--imageList?.study?.studyName?.first() == 'Prostate_TMA_Annotation_Study' || imageList?.study?.studyName?.first() == 'Prostate_ICR_Annotation_Study' || imageList?.study?.studyName?.first() == 'EUX247_Annotation_Study' || imageList?.study?.studyName?.first() == 'MIF_annotation_study' ||--}%
+                          %{--imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study_Round_3'}">--}%
+                %{--<th>Annotation</th>--}%
+            %{--</g:if>--}%
+            %{--<g:elseif test="${imageList?.study?.studyName?.first() == 'Prostate_Annotations_Study_Review' || imageList?.study?.studyName?.first() == 'Imperial_Image_Annotation_Study_Review' || imageList?.study?.studyName?.first() == 'Bladder_Prediction_Review_Study'}">--}%
+                %{--<th>Review</th>--}%
+            %{--</g:elseif>--}%
 
         </tr>
         </thead>
@@ -47,21 +60,16 @@
 
                     <td>${fieldValue(bean: image, field: "multiplexImageIdentifier")}</td>
 
-                    <td><g:link controller="annotation" action="viewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
+                    <td><g:link controller="annotation" action="showViewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
 
-                    <g:if test="${image?.study?.studyName == 'Prostate_Annotations_Study' || image?.study?.studyName == 'TCGA_Prostate_Study' ||
-                                    imageList?.study?.studyName?.first() == 'Prostate_Annotations_Study_Review' || imageList?.study?.studyName?.first() == 'Imperial_Image_Annotation_Study_Review' ||
-                                    imageList?.study?.studyName?.first() == 'Bladder_Annotation_Study' || imageList?.study?.studyName?.first() == 'Bladder_Prediction_Review_Study' || imageList?.study?.studyName?.first() == 'Bladder_ROI_Annotation_Study' ||
-                                    imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study' || imageList?.study?.studyName?.first() == 'Bladder_ROI_Annotation_Study_Round_2' || imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study_Round_2' ||
-                                    imageList?.study?.studyName?.first() == 'CODEX_Annotation_Study' || imageList?.study?.studyName?.first() == 'Prostate_TMA_Annotation_Study' || imageList?.study?.studyName?.first() == 'Prostate_ICR_Annotation_Study' || imageList?.study?.studyName?.first() == 'EUX247_Annotation_Study' ||
-                                    imageList?.study?.studyName?.first() == 'MIF_annotation_study' || imageList?.study?.studyName?.first() == 'Bladder_Tiles_Annotation_Study_Round_3'}">
-                        <g:if test="${image?.annotations?.findAll {it.imageAnnotator.id == annotatorId}?.size() > 1}">
+                    <g:if test="${!image?.annotations?.findAll {it?.status}?.isEmpty()}">
+                        <g:if test="${image?.annotations?.findAll {it?.status}?.last()?.status == 'complete'}">
                             <td style="color: forestgreen">Complete</td>
                         </g:if>
-                        <g:else>
-                            <td style="color: red">Incomplete</td>
-                        </g:else>
                     </g:if>
+                    <g:else>
+                        <td style="color: red">Incomplete</td>
+                    </g:else>
                 </g:else>
 
             </tr>

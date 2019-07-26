@@ -15,12 +15,16 @@ class Annotation {
         imageAnnotator()
         comment(nullable: true)
         stage(nullable: true)
+        status(nullable: true)
+        dcisStatus(nullable: true)
     }
 
     String annotationData
     Expert imageAnnotator
     String comment
     String stage
+    String status
+    String dcisStatus
 
     /*
      * Methods of the Domain Class
