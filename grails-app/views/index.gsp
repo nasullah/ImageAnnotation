@@ -157,6 +157,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> Ink Removal Review Study
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="label" action="displayInkRemovalImagePatches"><i class="glyphicon glyphicon-thumbs-up"></i> Rate Images</g:link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

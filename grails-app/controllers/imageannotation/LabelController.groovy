@@ -51,30 +51,30 @@ class LabelController {
         }
     }
 
-    def displaytest(){
-//        def currentUser = springSecurityService?.currentUser?.username
-//        def count = 0
-//        if (currentUser?.toString()?.contains('.')){
-//            def forename = currentUser?.toString()?.split("\\.")[0]
-//            def surname = currentUser?.toString()?.split("\\.")[1]
-//            def expert = Expert.createCriteria().get {
-//                and{
-//                    eq("givenName", forename, [ignoreCase: true])
-//                    eq("familyName", surname, [ignoreCase: true])
-//                }
-//            }
-//            if(expert){
-//                count = Label.findAllByLabeler(expert)?.size()
-//            }
-//        }
-//        def patchList = Patch.findAllByLabelsIsEmptyAndPathologyImageInList(PathologyImage.findAllByMultiplexImageInList(MultiplexImage.findAllByStudy(Study.findByStudyName('Prostate_Cancer_Annotations')))).id
-//        def random = new Random()
-//        if(!patchList.empty){
-//            def patchInstanceId = patchList.get(random.nextInt(patchList.size()))
-//            def patchInstance = Patch.findById(patchInstanceId)
-//            def imagePath = patchInstance?.patchPath
-//            [imagePath:imagePath, patchId:patchInstance?.id, count: count]
-//        }
+    def displayInkRemovalImagePatches(){
+        def currentUser = springSecurityService?.currentUser?.username
+        def count = 0
+        if (currentUser?.toString()?.contains('.')){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            if(expert){
+                count = Label.findAllByLabelerAndPatchInList(expert, Patch.findAllByPathologyImage(PathologyImage.findByImageIdentifier('Ink_Removal_Tiles')))?.size()
+            }
+        }
+        def patchList = Patch.findAllByLabelsIsEmptyAndPathologyImageInList(PathologyImage.findAllByMultiplexImageInList(MultiplexImage.findAllByStudy(Study.findByStudyName('Ink_Removal_Review_Study')))).id
+        def random = new Random()
+        if(!patchList.empty){
+            def patchInstanceId = patchList.get(random.nextInt(patchList.size()))
+            def patchInstance = Patch.findById(patchInstanceId)
+            def imagePath = patchInstance?.patchPath
+            [imagePath:imagePath, patchId:patchInstance?.id, count: count]
+        }
     }
 
     def displayTransplantImagePatches(){
@@ -253,6 +253,44 @@ class LabelController {
             }
         }else {
             redirect action:"displayTransplantImagePatches"
+        }
+    }
+
+    @Transactional
+    def saveInkRemovalRatings(){
+        def currentUser = springSecurityService?.currentUser?.username
+        if (currentUser?.toString()?.contains('.')){
+            def forename = currentUser?.toString()?.split("\\.")[0]
+            def surname = currentUser?.toString()?.split("\\.")[1]
+            def expert = Expert.createCriteria().get {
+                and{
+                    eq("givenName", forename, [ignoreCase: true])
+                    eq("familyName", surname, [ignoreCase: true])
+                }
+            }
+            def contentLoss = params.contentLoss
+            def contentAdd = params.contentAdd
+            def generalQuality = params.generalQuality
+            def diagnosisQuality = params.diagnosisQuality
+            def labelName = contentLoss.toString() + '_' + contentAdd.toString() + '_' + generalQuality.toString() + '_' + diagnosisQuality.toString()
+            def comment = params.comment
+            def patch = Patch.findById(params.patchId)
+            if(expert && patch && labelName){
+                def label = new Label()
+                label.patch = patch
+                label.labeler = expert
+                label.labelName = labelName
+                label.comment = comment
+                label.save failOnError: true
+                flash.message = "Previous ratings saved successfully."
+                redirect action:"displayInkRemovalImagePatches"
+            }
+            else {
+                flash.message = "Previous ratings not saved."
+                redirect action:"displayTransplantImagePatches"
+            }
+        }else {
+            redirect action:"displayInkRemovalImagePatches"
         }
     }
 
