@@ -3,18 +3,23 @@ package imageannotation
 class MultiplexImage {
 
     static auditable = true
+    static mapping = {
+        comment type: "text"
+    }
     static belongsTo = [study:Study]
-    static hasMany = [channels:PathologyImage, annotations:Annotation, assignments:Assignment]
+    static hasMany = [channels:PathologyImage, annotations:Annotation, assignments:Assignment, foci:FocusStatus]
     static constraints = {
         study()
         multiplexImageIdentifier()
         multiplexImageName()
         multiplexImageDesc(nullable: true)
+        comment(nullable: true)
     }
 
     String multiplexImageIdentifier
     String multiplexImageName
     String multiplexImageDesc
+    String comment
 
     /*
      * Methods of the Domain Class

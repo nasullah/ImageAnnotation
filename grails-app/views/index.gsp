@@ -133,7 +133,7 @@
                             <i class="glyphicon glyphicon-tasks"></i> Prostate Annotations Study Review
                         </div>
                         <div class="panel-body">
-                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'Prostate_Annotations_Study_Review']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'Prostate_Annotations_Study_Review']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
                         </div>
                     </div>
                 </div>
@@ -164,6 +164,16 @@
                         </div>
                         <div class="panel-body">
                             <g:link controller="label" action="displayInkRemovalImagePatches"><i class="glyphicon glyphicon-thumbs-up"></i> Rate Images</g:link>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> IHC Requesting Study
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'IHC_Requesting_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
                         </div>
                     </div>
                 </div>
