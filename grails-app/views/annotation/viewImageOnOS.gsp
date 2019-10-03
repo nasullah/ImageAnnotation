@@ -8,12 +8,12 @@
     <title>AIDA - Annotate Image Data by Assignment</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel=stylesheet>
     <link href=https://use.fontawesome.com/releases/v5.0.12/css/all.css rel=stylesheet integrity=sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9 crossorigin=anonymous>
-    <link as=style href=../assets/app.6e6d340f.css rel=preload>
+    <link as=style href=../assets/app.419fa6c7.css rel=preload>
     <link as=style href=../assets/chunk-vendors.47d5c3fb.css rel=preload>
-    <link as=script href=../assets/app.18b70229.js rel=preload>
+    <link as=script href=../assets/app.c2196b2e.js rel=preload>
     <link as=script href=../assets/chunk-vendors.f8381408.js rel=preload>
     <link href=../assets/chunk-vendors.47d5c3fb.css rel=stylesheet>
-    <link href=../assets/app.6e6d340f.css rel=stylesheet>
+    <link href=../assets/app.419fa6c7.css rel=stylesheet>
 </head>
 <body>
 <noscript>
@@ -21,7 +21,7 @@
 </noscript>
 <div id=app></div>
 <script type=text/javascript src=../assets/chunk-vendors.f8381408.js></script>
-<script type=text/javascript src=../assets/app.18b70229.js></script>
+<script type=text/javascript src=../assets/app.c2196b2e.js></script>
 </body>
 </html>
 

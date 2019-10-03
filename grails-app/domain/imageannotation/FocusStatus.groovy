@@ -7,6 +7,7 @@ class FocusStatus {
     static belongsTo = [multiplexImage:MultiplexImage]
     static mapping = {
         comment type: "text"
+        diagnosisNameOther type: "text"
     }
 
     static constraints = {
@@ -15,13 +16,16 @@ class FocusStatus {
         status(nullable: true)
         focusNumber(nullable: true)
         expert(nullable: true)
-
+        diagnosis(nullable: true)
+        diagnosisNameOther(nullable: true)
     }
 
     String comment
     FocusStatusDesc status
     Integer focusNumber
     Expert expert
+    Diagnosis diagnosis
+    String diagnosisNameOther
 
     /*
      * Methods of the Domain Class
