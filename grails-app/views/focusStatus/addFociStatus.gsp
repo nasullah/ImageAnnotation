@@ -132,8 +132,8 @@
         <br>
         <div class="row">
             <div class="col-lg-12">
-                <label for="comment">Comment</label><br>
-                <g:textArea name="comment" placeholder='Please add you comments' style="height:100px;width:500px">${multiplexImage?.comment}</g:textArea>
+                <label for="comment">Comment</label>
+                <g:textArea name="comment" placeholder='Please add your comments' style="height:100px;width:490px">${multiplexImage?.comment}</g:textArea>
             </div>
         </div>
         <br>
