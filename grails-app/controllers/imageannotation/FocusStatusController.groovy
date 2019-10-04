@@ -50,7 +50,9 @@ class FocusStatusController {
                 if (params.focus1){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 1, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus1)
+                        focus.status = FocusStatusDesc.findById(params.long('focus1'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis1'))
+                        focus.diagnosisNameOther = params.diagnosisOther1
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:1, status:params.focus1, diagnosis:params.diagnosis1, diagnosisNameOther:params.diagnosisOther1))
@@ -64,7 +66,9 @@ class FocusStatusController {
                 if (params.focus2){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 2, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus2)
+                        focus.status = FocusStatusDesc.findById(params.long('focus2'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis2'))
+                        focus.diagnosisNameOther = params.diagnosisOther2
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:2, status:params.focus2, diagnosis:params.diagnosis2, diagnosisNameOther:params.diagnosisOther2))
@@ -78,7 +82,9 @@ class FocusStatusController {
                 if (params.focus3){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 3, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus3)
+                        focus.status = FocusStatusDesc.findById(params.long('focus3'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis3'))
+                        focus.diagnosisNameOther = params.diagnosisOther3
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:3, status:params.focus3, diagnosis:params.diagnosis3, diagnosisNameOther:params.diagnosisOther3))
@@ -92,7 +98,9 @@ class FocusStatusController {
                 if (params.focus4){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 4, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus4)
+                        focus.status = FocusStatusDesc.findById(params.long('focus4'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis4'))
+                        focus.diagnosisNameOther = params.diagnosisOther4
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:4, status:params.focus4, diagnosis:params.diagnosis4, diagnosisNameOther:params.diagnosisOther4))
@@ -106,7 +114,9 @@ class FocusStatusController {
                 if (params.focus5){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 5, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus5)
+                        focus.status = FocusStatusDesc.findById(params.long('focus5'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis5'))
+                        focus.diagnosisNameOther = params.diagnosisOther5
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:5, status:params.focus5, diagnosis:params.diagnosis5, diagnosisNameOther:params.diagnosisOther5))
@@ -120,7 +130,9 @@ class FocusStatusController {
                 if (params.focus6){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 6, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus6)
+                        focus.status = FocusStatusDesc.findById(params.long('focus6'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis6'))
+                        focus.diagnosisNameOther = params.diagnosisOther6
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:6, status:params.focus6, diagnosis:params.diagnosis6, diagnosisNameOther:params.diagnosisOther6))
@@ -134,7 +146,9 @@ class FocusStatusController {
                 if (params.focus7){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 7, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus7)
+                        focus.status = FocusStatusDesc.findById(params.long('focus7'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis7'))
+                        focus.diagnosisNameOther = params.diagnosisOther7
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:7, status:params.focus7, diagnosis:params.diagnosis7, diagnosisNameOther:params.diagnosisOther7))
@@ -148,7 +162,9 @@ class FocusStatusController {
                 if (params.focus8){
                     def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 8, expert)
                     if (focus){
-                        focus.status = FocusStatusDesc.findById(params.focus8)
+                        focus.status = FocusStatusDesc.findById(params.long('focus8'))
+                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis8'))
+                        focus.diagnosisNameOther = params.diagnosisOther8
                         focusStatusList.add(focus)
                     }else {
                         focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:8, status:params.focus8, diagnosis:params.diagnosis8, diagnosisNameOther:params.diagnosisOther8))
