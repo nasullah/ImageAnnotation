@@ -18,6 +18,9 @@ class FocusStatus {
         expert(nullable: true)
         diagnosis(nullable: true)
         diagnosisNameOther(nullable: true)
+        focusType(nullable: true)
+        stainType(nullable: true)
+        stainTypeNameOther(nullable: true)
     }
 
     String comment
@@ -26,6 +29,9 @@ class FocusStatus {
     Expert expert
     Diagnosis diagnosis
     String diagnosisNameOther
+    FocusType focusType
+    StainType stainType
+    String stainTypeNameOther
 
     /*
      * Methods of the Domain Class

@@ -50,6 +50,25 @@ class MultiplexImageController {
         }
     }
 
+    def exportIHCData(){
+        if(params?.extension && params?.extension != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params?.extension]
+            response.setHeader("Content-disposition", "attachment; filename= Exported annnotations.${params.extension}")
+            def study = Study.findByStudyName(params.study)
+            def expert = Expert.findById(params.long('annotator'))
+            def focusData = []
+            if(expert){
+                def multiplexImages = MultiplexImage.findAllByStudy(study)
+                focusData = FocusStatus.findAllByExpertAndMultiplexImageInList(expert, multiplexImages).sort{it.multiplexImage}
+            }
+            List fields = ["multiplexImage.multiplexImageIdentifier", "multiplexImage.multiplexImageType", "focusNumber", "focusType", "diagnosis", "stainType", "stainTypeNameOther", "diagnosisNameOther","expert"]
+            Map labels = ["multiplexImage.multiplexImageIdentifier":"Image", "diagnosis":"Diagnosis", "diagnosisNameOther":"Diagnosis other","multiplexImage.multiplexImageType":"Case type", "focusType": "Benign/Malegnant", "stainType":"Staining code", "stainTypeNameOther":"Staining code other", "expert":"Annotator", "focusNumber":"Focus number"]
+            Map formatters = [:]
+            Map parameters = [title: "Annotation"]
+            exportService.export(params.extension, response.outputStream, focusData, fields, labels, formatters, parameters )
+        }
+    }
+
     def yourImageList(){
         def study = Study.findByStudyName(params.study)
         def currentUser = springSecurityService.currentUser.username

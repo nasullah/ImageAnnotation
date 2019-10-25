@@ -46,139 +46,222 @@ class FocusStatusController {
                 }
             }
             if(expert){
-                List<FocusStatus> focusStatusList = new ArrayList<FocusStatus>();
-                if (params.focus1){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 1, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus1'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis1'))
-                        focus.diagnosisNameOther = params.diagnosisOther1
-                        focusStatusList.add(focus)
+                def multiplexImageType = MultiplexImageType.findById(params.long('caseType'))
+                if(multiplexImageType.multiplexImageTypeName == 'Control'){
+                    List<FocusStatus> focusStatusList = new ArrayList<FocusStatus>();
+                    if (params.focusType1){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 1, expert)
+                        if (focus){
+                            focus.focusType = FocusType.findById(params.long('focusType1'))
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:1, focusType: params.focusType1))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:1, status:params.focus1, diagnosis:params.diagnosis1, diagnosisNameOther:params.diagnosisOther1))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 1, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
+                    }
+                    if (params.focusType2){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 2, expert)
+                        if (focus){
+                            focus.focusType = FocusType.findById(params.long('focusType2'))
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:2, focusType: params.focusType2))
+                        }
+                    }else {
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 2, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
+                    }
+                    if (params.focusType3){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 3, expert)
+                        if (focus){
+                            focus.focusType = FocusType.findById(params.long('focusType3'))
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:3, focusType: params.focusType3))
+                        }
+                    }else {
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 3, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
+                    }
+                    if (params.focusType4){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 4, expert)
+                        if (focus){
+                            focus.focusType = FocusType.findById(params.long('focusType4'))
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:4, focusType: params.focusType4))
+                        }
+                    }else {
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 4, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
+                    }
+                    multiplexImage.multiplexImageType = multiplexImageType
+                    multiplexImage.save failOnError: true
+                    for (int i = 0; i <focusStatusList.size(); i++ ){
+                        multiplexImage.addToFoci(focusStatusList.get(i)).save failOnError: true
                     }
                 }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 1, expert)
-                    if (focus){
-                        focus.delete flush:true
-                    }
-                }
-                if (params.focus2){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 2, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus2'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis2'))
-                        focus.diagnosisNameOther = params.diagnosisOther2
-                        focusStatusList.add(focus)
+                    List<FocusStatus> focusStatusList = new ArrayList<FocusStatus>();
+                    if (params.focus1){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 1, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus1'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis1'))
+                            focus.diagnosisNameOther = params.diagnosisOther1
+                            focus.stainType = StainType.findById(params.long('stainingType1'))
+                            focus.stainTypeNameOther = params.stainingTypeOther1
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:1, status:params.focus1, diagnosis:params.diagnosis1, diagnosisNameOther:params.diagnosisOther1, stainType: params.stainingType1, stainTypeNameOther: params.stainingTypeOther1))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:2, status:params.focus2, diagnosis:params.diagnosis2, diagnosisNameOther:params.diagnosisOther2))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 1, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 2, expert)
-                    if (focus){
-                        focus.delete flush:true
-                    }
-                }
-                if (params.focus3){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 3, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus3'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis3'))
-                        focus.diagnosisNameOther = params.diagnosisOther3
-                        focusStatusList.add(focus)
+                    if (params.focus2){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 2, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus2'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis2'))
+                            focus.diagnosisNameOther = params.diagnosisOther2
+                            focus.stainType = StainType.findById(params.long('stainingType2'))
+                            focus.stainTypeNameOther = params.stainingTypeOther2
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:2, status:params.focus2, diagnosis:params.diagnosis2, diagnosisNameOther:params.diagnosisOther2, stainType: params.stainingType2, stainTypeNameOther: params.stainingTypeOther2))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:3, status:params.focus3, diagnosis:params.diagnosis3, diagnosisNameOther:params.diagnosisOther3))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 2, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 3, expert)
-                    if (focus){
-                        focus.delete flush:true
-                    }
-                }
-                if (params.focus4){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 4, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus4'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis4'))
-                        focus.diagnosisNameOther = params.diagnosisOther4
-                        focusStatusList.add(focus)
+                    if (params.focus3){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 3, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus3'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis3'))
+                            focus.diagnosisNameOther = params.diagnosisOther3
+                            focus.stainType = StainType.findById(params.long('stainingType3'))
+                            focus.stainTypeNameOther = params.stainingTypeOther3
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:3, status:params.focus3, diagnosis:params.diagnosis3, diagnosisNameOther:params.diagnosisOther3, stainType: params.stainingType3, stainTypeNameOther: params.stainingTypeOther3))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:4, status:params.focus4, diagnosis:params.diagnosis4, diagnosisNameOther:params.diagnosisOther4))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 3, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 4, expert)
-                    if (focus){
-                        focus.delete flush:true
-                    }
-                }
-                if (params.focus5){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 5, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus5'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis5'))
-                        focus.diagnosisNameOther = params.diagnosisOther5
-                        focusStatusList.add(focus)
+                    if (params.focus4){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 4, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus4'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis4'))
+                            focus.diagnosisNameOther = params.diagnosisOther4
+                            focus.stainType = StainType.findById(params.long('stainingType4'))
+                            focus.stainTypeNameOther = params.stainingTypeOther4
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:4, status:params.focus4, diagnosis:params.diagnosis4, diagnosisNameOther:params.diagnosisOther4, stainType: params.stainingType4, stainTypeNameOther: params.stainingTypeOther4))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:5, status:params.focus5, diagnosis:params.diagnosis5, diagnosisNameOther:params.diagnosisOther5))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 4, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 5, expert)
-                    if (focus){
-                        focus.delete flush:true
-                    }
-                }
-                if (params.focus6){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 6, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus6'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis6'))
-                        focus.diagnosisNameOther = params.diagnosisOther6
-                        focusStatusList.add(focus)
+                    if (params.focus5){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 5, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus5'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis5'))
+                            focus.diagnosisNameOther = params.diagnosisOther5
+                            focus.stainType = StainType.findById(params.long('stainingType5'))
+                            focus.stainTypeNameOther = params.stainingTypeOther5
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:5, status:params.focus5, diagnosis:params.diagnosis5, diagnosisNameOther:params.diagnosisOther5, stainType: params.stainingType5, stainTypeNameOther: params.stainingTypeOther5))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:6, status:params.focus6, diagnosis:params.diagnosis6, diagnosisNameOther:params.diagnosisOther6))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 5, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 6, expert)
-                    if (focus){
-                        focus.delete flush:true
-                    }
-                }
-                if (params.focus7){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 7, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus7'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis7'))
-                        focus.diagnosisNameOther = params.diagnosisOther7
-                        focusStatusList.add(focus)
+                    if (params.focus6){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 6, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus6'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis6'))
+                            focus.diagnosisNameOther = params.diagnosisOther6
+                            focus.stainType = StainType.findById(params.long('stainingType6'))
+                            focus.stainTypeNameOther = params.stainingTypeOther6
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:6, status:params.focus6, diagnosis:params.diagnosis6, diagnosisNameOther:params.diagnosisOther6, stainType: params.stainingType6, stainTypeNameOther: params.stainingTypeOther6))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:7, status:params.focus7, diagnosis:params.diagnosis7, diagnosisNameOther:params.diagnosisOther7))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 6, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 7, expert)
-                    if (focus){
-                        focus.delete flush:true
-                    }
-                }
-                if (params.focus8){
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 8, expert)
-                    if (focus){
-                        focus.status = FocusStatusDesc.findById(params.long('focus8'))
-                        focus.diagnosis = Diagnosis.findById(params.long('diagnosis8'))
-                        focus.diagnosisNameOther = params.diagnosisOther8
-                        focusStatusList.add(focus)
+                    if (params.focus7){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 7, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus7'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis7'))
+                            focus.diagnosisNameOther = params.diagnosisOther7
+                            focus.stainType = StainType.findById(params.long('stainingType7'))
+                            focus.stainTypeNameOther = params.stainingTypeOther7
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:7, status:params.focus7, diagnosis:params.diagnosis7, diagnosisNameOther:params.diagnosisOther7, stainType: params.stainingType7, stainTypeNameOther: params.stainingTypeOther7))
+                        }
                     }else {
-                        focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:8, status:params.focus8, diagnosis:params.diagnosis8, diagnosisNameOther:params.diagnosisOther8))
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 7, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }else {
-                    def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 8, expert)
-                    if (focus){
-                        focus.delete flush:true
+                    if (params.focus8){
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 8, expert)
+                        if (focus){
+                            focus.status = FocusStatusDesc.findById(params.long('focus8'))
+                            focus.diagnosis = Diagnosis.findById(params.long('diagnosis8'))
+                            focus.diagnosisNameOther = params.diagnosisOther8
+                            focus.stainType = StainType.findById(params.long('stainingType8'))
+                            focus.stainTypeNameOther = params.stainingTypeOther8
+                            focusStatusList.add(focus)
+                        }else {
+                            focusStatusList.add(new FocusStatus(expert:expert.id, focusNumber:8, status:params.focus8, diagnosis:params.diagnosis8, diagnosisNameOther:params.diagnosisOther8, stainType: params.stainingType8, stainTypeNameOther: params.stainingTypeOther8))
+                        }
+                    }else {
+                        def focus = FocusStatus.findByMultiplexImageAndFocusNumberAndExpert(multiplexImage, 8, expert)
+                        if (focus){
+                            focus.delete flush:true
+                        }
                     }
-                }
-                multiplexImage.comment = params.comment
-                multiplexImage.save failOnError: true
-                for (int i = 0; i <focusStatusList.size(); i++ ){
-                    multiplexImage.addToFoci(focusStatusList.get(i)).save failOnError: true
+                    multiplexImage.comment = params.comment
+                    multiplexImage.multiplexImageType = multiplexImageType
+                    multiplexImage.save failOnError: true
+                    for (int i = 0; i <focusStatusList.size(); i++ ){
+                        multiplexImage.addToFoci(focusStatusList.get(i)).save failOnError: true
+                    }
                 }
                 redirect(controller: "annotation", action: "showViewImageOnOS", params: [imageId: multiplexImage?.id, annotatorId: expert?.id])
             }

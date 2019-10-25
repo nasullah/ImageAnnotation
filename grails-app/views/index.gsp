@@ -170,6 +170,25 @@
                 <div class="col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> IGF Annotation Study
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'IGF_Annotation_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <hr>
+</sec:ifAnyGranted>
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PROSTATE_ANNOTATION, ROLE_IHC_REQUESTING">
+    <div class="container-fluid">
+        <section id="info">
+            <div class="equal">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <i class="glyphicon glyphicon-tasks"></i> IHC Requesting Study
                         </div>
                         <div class="panel-body">

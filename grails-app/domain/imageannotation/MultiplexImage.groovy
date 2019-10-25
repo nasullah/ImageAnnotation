@@ -14,12 +14,14 @@ class MultiplexImage {
         multiplexImageName()
         multiplexImageDesc(nullable: true)
         comment(nullable: true)
+        multiplexImageType(nullable: true)
     }
 
     String multiplexImageIdentifier
     String multiplexImageName
     String multiplexImageDesc
     String comment
+    MultiplexImageType multiplexImageType
 
     /*
      * Methods of the Domain Class
