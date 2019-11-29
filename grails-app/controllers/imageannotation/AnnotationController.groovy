@@ -32,7 +32,7 @@ class AnnotationController {
         def currentImage = MultiplexImage.findById(params.long('imageId'))
         def study = currentImage?.study
         def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages)?.multiplexImage
-        imageList = imageList?.unique()?.sort{it.id}
+        imageList = imageList?.unique()?.sort{it.multiplexImageIdentifier}
         def currentIndex = imageList.indexOf(currentImage)
         def numberOfImages = imageList?.size()
         def nextImage = 0

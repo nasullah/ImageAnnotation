@@ -150,16 +150,6 @@
                 <div class="col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="glyphicon glyphicon-tasks"></i> Prostate ICR Annotation Study
-                        </div>
-                        <div class="panel-body">
-                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'Prostate_ICR_Annotation_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
                             <i class="glyphicon glyphicon-tasks"></i> Ink Removal Review Study
                         </div>
                         <div class="panel-body">
@@ -193,6 +183,25 @@
                         </div>
                         <div class="panel-body">
                             <g:link controller="multiplexImage" action="yourImageList" params="[study:'IHC_Requesting_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <hr>
+</sec:ifAnyGranted>
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ICR">
+    <div class="container-fluid">
+        <section id="info">
+            <div class="equal">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> Prostate ICR Annotation Study
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'Prostate_ICR_Annotation_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link>
                         </div>
                     </div>
                 </div>
@@ -378,7 +387,7 @@
                             <i class="glyphicon glyphicon-tasks"></i> EUX247 Image Annotation
                         </div>
                         <div class="panel-body">
-                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_Annotation_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
+                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'EUX247_Annotation_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
                         </div>
                     </div>
                 </div>

@@ -50,6 +50,25 @@ class MultiplexImageController {
         }
     }
 
+    def exportAnnotationPerStudy(){
+        if(params?.extension && params?.extension != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params?.extension]
+            response.setHeader("Content-disposition", "attachment; filename= Exported annnotations.${params.extension}")
+            def study = Study.findByStudyName(params.study)
+            def annotations = []
+                def multiplexImages = Annotation.findAllByMultiplexImageInList(study?.multiplexImages).multiplexImage.unique()
+                for (MultiplexImage image : multiplexImages) {
+                    def latestAnnotation = Annotation.findAllByMultiplexImage(image).sort{it.id}.last()
+                    annotations.add(latestAnnotation)
+                }
+            List fields = ["multiplexImage.multiplexImageIdentifier", "annotationData", "imageAnnotator"]
+            Map labels = ["multiplexImage.multiplexImageIdentifier":"Image", "annotationData":"Annotation", "imageAnnotator":"Annotator"]
+            Map formatters = [:]
+            Map parameters = [title: "Annotation"]
+            exportService.export(params.extension, response.outputStream, annotations, fields, labels, formatters, parameters )
+        }
+    }
+
     def exportIHCData(){
         if(params?.extension && params?.extension != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params?.extension]
@@ -61,8 +80,24 @@ class MultiplexImageController {
                 def multiplexImages = MultiplexImage.findAllByStudy(study)
                 focusData = FocusStatus.findAllByExpertAndMultiplexImageInList(expert, multiplexImages).sort{it.multiplexImage}
             }
-            List fields = ["multiplexImage.multiplexImageIdentifier", "multiplexImage.multiplexImageType", "focusNumber", "focusType", "diagnosis", "stainType", "stainTypeNameOther", "diagnosisNameOther","expert"]
-            Map labels = ["multiplexImage.multiplexImageIdentifier":"Image", "diagnosis":"Diagnosis", "diagnosisNameOther":"Diagnosis other","multiplexImage.multiplexImageType":"Case type", "focusType": "Benign/Malegnant", "stainType":"Staining code", "stainTypeNameOther":"Staining code other", "expert":"Annotator", "focusNumber":"Focus number"]
+            List fields = ["multiplexImage.multiplexImageIdentifier", "multiplexImage.multiplexImageType", "focusNumber", "focusType", "diagnosis", "stainType", "stainTypeNameOther", "diagnosisNameOther", "multiplexImage.comment", "expert"]
+            Map labels = ["multiplexImage.multiplexImageIdentifier":"Image", "diagnosis":"Diagnosis", "diagnosisNameOther":"Diagnosis other","multiplexImage.multiplexImageType":"Case type", "focusType": "Benign/Malegnant", "stainType":"Staining code", "stainTypeNameOther":"Staining code other", "expert":"Annotator", "focusNumber":"Focus number", "multiplexImage.comment":"Comment"]
+            Map formatters = [:]
+            Map parameters = [title: "Annotation"]
+            exportService.export(params.extension, response.outputStream, focusData, fields, labels, formatters, parameters )
+        }
+    }
+
+    def exportIHCDataPerStudy(){
+        if(params?.extension && params?.extension != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params?.extension]
+            response.setHeader("Content-disposition", "attachment; filename= Exported annnotations.${params.extension}")
+            def study = Study.findByStudyName(params.study)
+            def focusData = []
+            def multiplexImages = MultiplexImage.findAllByStudy(study)
+            focusData = FocusStatus.findAllByMultiplexImageInList(multiplexImages).sort{it.multiplexImage}
+            List fields = ["multiplexImage.multiplexImageIdentifier", "multiplexImage.multiplexImageType", "focusNumber", "focusType", "diagnosis", "stainType", "stainTypeNameOther", "diagnosisNameOther", "multiplexImage.comment", "expert"]
+            Map labels = ["multiplexImage.multiplexImageIdentifier":"Image", "diagnosis":"Diagnosis", "diagnosisNameOther":"Diagnosis other","multiplexImage.multiplexImageType":"Case type", "focusType": "Benign/Malegnant", "stainType":"Staining code", "stainTypeNameOther":"Staining code other", "expert":"Annotator", "focusNumber":"Focus number", "multiplexImage.comment":"Comment"]
             Map formatters = [:]
             Map parameters = [title: "Annotation"]
             exportService.export(params.extension, response.outputStream, focusData, fields, labels, formatters, parameters )
@@ -87,7 +122,7 @@ class MultiplexImageController {
                     [imageList: imageList, annotatorId:expert.id]
                 }else {
                     def imageList = Annotation.findAllByImageAnnotatorAndMultiplexImageInList(expert, study?.multiplexImages).multiplexImage
-                    [imageList: imageList.sort{it.id}?.unique(), annotatorId:expert?.id, study:study?.id]
+                    [imageList: imageList.sort{it.multiplexImageIdentifier}?.unique(), annotatorId:expert?.id, study:study?.id]
                 }
             }
         }
@@ -142,6 +177,7 @@ class MultiplexImageController {
                         def multiplexImage = new MultiplexImage()
                         multiplexImage.multiplexImageName = imageName
                         multiplexImage.multiplexImageIdentifier = imageName
+                        multiplexImage.multiplexImageType = MultiplexImageType.findByMultiplexImageTypeName('Real')
                         multiplexImage.study = Study.findByStudyName(studyName)
                         multiplexImage.save failOnError: true
                         def pathologyImage = new PathologyImage()
