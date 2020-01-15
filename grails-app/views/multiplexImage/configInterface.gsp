@@ -55,6 +55,50 @@
 
         </g:form>
     </div>
+    <hr>
+    <p>Review</p>
+    <div style="margin-left: 50px">
+        <g:form action="saveReviewConfigChannel" method="POST">
+
+            <label>Folder Name (assets/attachments/)</label>
+            <g:textField name="folderName" value="${folderName}" required=""/><br><br>
+
+            <label>Study Name</label>
+            <g:textField name="studyName" value="${folderName}" required=""/><br><br>
+
+            <label>Select Annotator</label>
+            <g:select id="annotator" name="annotator" from="${Expert.list()}" optionKey="id" required="" noSelection="['':'-Choose annotator-']" /><br><br>
+
+            <fieldset class="buttons">
+                <g:submitButton name="create" class="save" value="Save" />
+            </fieldset>
+
+            <hr/>
+
+        </g:form>
+    </div>
+
+    <p>Add Channel</p>
+    <div style="margin-left: 50px">
+        <g:form action="saveConfigAddChannel" method="POST">
+
+            <label>Folder Name (assets/attachments/)</label>
+            <g:textField name="folderName" value="${folderName}" required=""/><br><br>
+
+            <label>Study Name</label>
+            <g:textField name="studyName" value="${folderName}" required=""/><br><br>
+
+            <label>Select Annotator</label>
+            <g:select id="annotator" name="annotator" from="${Expert.list()}" optionKey="id" required="" noSelection="['':'-Choose annotator-']" /><br><br>
+
+            <fieldset class="buttons">
+                <g:submitButton name="create" class="save" value="Save" />
+            </fieldset>
+
+            <hr/>
+
+        </g:form>
+    </div>
 </div>
 <br/>
 <br/>

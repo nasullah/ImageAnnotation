@@ -387,7 +387,20 @@
                             <i class="glyphicon glyphicon-tasks"></i> EUX247 Image Annotation
                         </div>
                         <div class="panel-body">
-                            <g:link controller="multiplexImage" action="sharedImageList" params="[study:'EUX247_Annotation_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA500_Slice_16']"><i class="glyphicon glyphicon-list"></i> EUX247_TA500_Slice_16</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA500_Slice_17']"><i class="glyphicon glyphicon-list"></i> EUX247_TA500_Slice_17</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA500_Slice_18']"><i class="glyphicon glyphicon-list"></i> EUX247_TA500_Slice_18</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA501_Slice_1']"><i class="glyphicon glyphicon-list"></i> EUX247_TA501_Slice_1</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA501_Slice_4']"><i class="glyphicon glyphicon-list"></i> EUX247_TA501_Slice_4</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA501_Slice_11']"><i class="glyphicon glyphicon-list"></i> EUX247_TA501_Slice_11</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA502_Slice_1']"><i class="glyphicon glyphicon-list"></i> EUX247_TA502_Slice_1</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA502_Slice_2']"><i class="glyphicon glyphicon-list"></i> EUX247_TA502_Slice_2</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA503_Slice_1']"><i class="glyphicon glyphicon-list"></i> EUX247_TA503_Slice_1</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA503_Slice_2']"><i class="glyphicon glyphicon-list"></i> EUX247_TA503_Slice_2</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA503_Slice_3']"><i class="glyphicon glyphicon-list"></i> EUX247_TA503_Slice_3</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA507_Slice_1']"><i class="glyphicon glyphicon-list"></i> EUX247_TA507_Slice_1</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA507_Slice_2']"><i class="glyphicon glyphicon-list"></i> EUX247_TA507_Slice_2</g:link><br><br>
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'EUX247_TA507_Slice_3']"><i class="glyphicon glyphicon-list"></i> EUX247_TA507_Slice_3</g:link><br><br>
                         </div>
                     </div>
                 </div>

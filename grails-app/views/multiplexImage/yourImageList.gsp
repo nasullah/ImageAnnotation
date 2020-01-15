@@ -1,3 +1,4 @@
+<%@ page import="imageannotation.Study" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,7 @@
         <div>
             <label class="control-label"><small>Export Annotations</small></label>
             <div>
-                <a class='btn btn-success btn-sm' <g:link controller="multiplexImage" action="exportAnnotations" params="['format': 'csv', 'extension': 'csv', 'annotator': annotatorId, 'study': study]"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
+                <a class='btn btn-success btn-sm' <g:link controller="multiplexImage" action="exportAnnotations" params="['format': 'csv', 'extension': 'csv', 'annotator': annotatorId, 'study': Study.findById(study)]"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
             </div>
         </div>
     </div>
