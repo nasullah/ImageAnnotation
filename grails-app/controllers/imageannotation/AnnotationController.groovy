@@ -47,7 +47,7 @@ class AnnotationController {
             previousImage = previousIndex.id
         }
         def status = 0
-        def annotationStatus = Annotation.findAllByStatusIsNotNullAndMultiplexImage(currentImage)
+        def annotationStatus = Annotation.findAllByStatusIsNotNullAndMultiplexImageAndImageAnnotator(currentImage, expert)
         if (!annotationStatus.isEmpty()){
             if (annotationStatus?.last()?.status == 'complete'){
                 status = 1
@@ -63,8 +63,10 @@ class AnnotationController {
                 }
             }
 
-        }else {
+        }else if (currentImage?.study?.studyName == 'IHC_Requesting_Study') {
             dcisStatus = 2
+        }else {
+            dcisStatus = 3
         }
         redirect(controller: "annotation", action: "viewImageOnOS", params:[imageId: currentImage?.id, annotatorId: expert?.id, nextImage: nextImage, previousImage: previousImage, currentImage: currentImage.multiplexImageName, status: status, dcisStatus: dcisStatus, currentIndex: currentIndex + 1, numberOfImages: numberOfImages])
     }

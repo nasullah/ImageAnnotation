@@ -1,4 +1,4 @@
-<%@ page import="imageannotation.Study" %>
+<%@ page import="imageannotation.Annotation; imageannotation.Expert; imageannotation.Study" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,11 +62,14 @@
                     <td>${fieldValue(bean: image, field: "multiplexImageIdentifier")}</td>
 
                     <td><g:link controller="annotation" action="showViewImageOnOS" params="['imageId': image.id, 'annotatorId':annotatorId]"><i class="glyphicon glyphicon-eye-open"></i> View</g:link></td>
-
-                    <g:if test="${!image?.annotations?.findAll {it?.status}?.isEmpty()}">
-                        <g:if test="${image?.annotations?.findAll {it?.status}?.last()?.status == 'complete'}">
+                    <% def lastAnnotationStatus = Annotation.findAllByMultiplexImageAndImageAnnotator(image, Expert.findById(annotatorId))?.last()?.status%>
+                    <g:if test="${lastAnnotationStatus}">
+                        <g:if test="${lastAnnotationStatus == 'complete'}">
                             <td style="color: forestgreen">Complete</td>
                         </g:if>
+                        <g:else>
+                            <td style="color: red">Incomplete</td>
+                        </g:else>
                     </g:if>
                     <g:else>
                         <td style="color: red">Incomplete</td>

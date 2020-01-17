@@ -377,6 +377,25 @@
     </div>
     <hr>
 </sec:ifAnyGranted>
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_SPACE">
+    <div class="container-fluid">
+        <section id="info">
+            <div class="equal">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-tasks"></i> SPACE Study
+                        </div>
+                        <div class="panel-body">
+                            <g:link controller="multiplexImage" action="yourImageList" params="[study:'SPACE_Study']"><i class="glyphicon glyphicon-list"></i> Image List</g:link><br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <hr>
+</sec:ifAnyGranted>
 <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_EUX247">
     <div class="container-fluid">
         <section id="info">
